@@ -1,0 +1,22 @@
+package recipes.config;
+
+import org.bson.types.ObjectId;
+import org.springframework.core.convert.converter.Converter;
+
+import recipes.domain.User;
+import recipes.repository.UserRepository;
+
+public class ObjectIdToUserConverter implements Converter<ObjectId, User> {
+
+    private UserRepository userRepository;
+
+    public ObjectIdToUserConverter(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public User convert(ObjectId objectId) {
+        // Retrieve the User object based on the provided ObjectId
+        return userRepository.findById(objectId.toHexString()).orElse(null);
+    }
+}

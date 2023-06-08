@@ -1,0 +1,24 @@
+package recipes.config;
+
+import java.util.Arrays;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
+import recipes.repository.UserRepository;
+
+@Configuration
+@EnableMongoRepositories(basePackages = "your.package.name")  // Replace with your actual package name
+public class MongoConfig {
+
+    private final UserRepository UserRepository;
+
+    public MongoConfig(UserRepository userRepository) {
+        this.UserRepository = userRepository;
+    }
+
+    public MongoCustomConversions customConversions() {
+        return new MongoCustomConversions(Arrays.asList(new ObjectIdToUserConverter(UserRepository)));
+    }
+}

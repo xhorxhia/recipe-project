@@ -1,0 +1,31 @@
+<div class="row m-3">
+    <div class="col-sm-4 col-6 col-md-3 col-lg-2" *ngFor="let recipe of recipes; index as i">
+      <div class="card mb-3" (click)="openRecipeDetails(recipe.id)" id="recipe-card">
+        <img class="card-img-top" src="https://picsum.photos/200" alt="Card image cap">
+        <div class="card-body">
+          <h3 class="card-title mb-0"><strong>{{recipe.name}}</strong></h3>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+          <div class="mt-0 mb-1">          
+            <span class="fa" [ngClass]="{'fa-star' : recipe.stars > 0, 'fa-star-o':  recipe.stars <= 0, 'text-warning' : recipe.stars > 0}" id="star1"></span>
+            <span class="fa" [ngClass]="{'fa-star' : recipe.stars > 1, 'fa-star-o':  recipe.stars <= 1, 'text-warning' : recipe.stars > 1}" id="star2"></span>
+            <span class="fa" [ngClass]="{'fa-star' : recipe.stars > 2, 'fa-star-o':  recipe.stars <= 2, 'text-warning' : recipe.stars > 2}" id="star3"></span>
+            <span class="fa" [ngClass]="{'fa-star' : recipe.stars > 3, 'fa-star-o':  recipe.stars <= 3, 'text-warning' : recipe.stars > 3}" id="star4"></span>
+            <span class="fa" [ngClass]="{'fa-star' : recipe.stars > 4, 'fa-star-o':  recipe.stars <= 4, 'text-warning' : recipe.stars > 4}" id="star5"></span>
+            <span id="rating-value" class="ms-2 text-primary">{{recipe?.stars?.toString() | number : '1.1-1'}}</span>
+          </div>
+          <p class="card-text">{{recipe.description}}</p>
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item" id="recipe-author">
+              by <strong>{{recipe.author.username?.substr(0, 17)}}</strong>{{(recipe.author.username || '').length > 17 ? "..." : ""}}
+            </li>
+            <li class="list-inline-item trash-icon-list-component" id="delete-icon">
+                <svg (click)="onClickDeleteRecipe(recipe.id, $event)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+              </svg>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>

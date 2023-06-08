@@ -1,0 +1,29 @@
+GET http://localhost:8080/comments/root-nodes
+
+
+#PUT http://localhost:8080/recipes/update/6316de08a18765f720bd63f6
+#Content-Type: application/json
+#
+#{
+#    "id": "6316de08a18765f720bd63f6",
+#    "name": "Lo Mein TEST UPDATE",
+#    "description": "Lo Mein is a traditional Chinese dish. It often contains vegetables and some type of meat or seafood.",
+#    "ingredients": [
+#      "2 chicken breast",
+#      "3 carrots",
+#      "uncooked Lo Mein noodles",
+#      "soy sauce"
+#    ],
+#    "steps": [
+#      "cook the noodles and drain",
+#      "idk",
+#      "add the sauce",
+#      "serve"
+#    ],
+#    "difficulty": "Easy",
+#    "category": "Chinese Dish",
+#    "author": "Ionescu2",
+#    "date": "26 Aug 2022",
+#    "imagePath": "632c67142702385f29226dd2",
+#    "rating": "4"
+#  }

@@ -1,0 +1,93 @@
+<div class="container-fluid d-flex flex-column justify-content-center align-items-center mt-4" id="form-container">
+  <div class="row text-center shadow w-50 h-50" id="form-row">
+    <h1 class="fw-bolder mt-2" id="register-form-title">&nbsp;</h1>
+    <div class="col-md-12">
+      <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input  matInput
+              title = "First Name Form Field"
+              [formControl]="firstNameFormControl">
+      <mat-error *ngIf="firstNameFormControl.hasError('required')">
+        First Name is <strong>required</strong>
+      </mat-error>
+      </mat-form-field>
+    </div>
+    <br>
+    <div class="col-md-12">
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input  matInput
+                title = "Last Name Form Field"
+                [formControl]="lastNameFormControl">
+        <mat-error *ngIf="lastNameFormControl.hasError('required')">
+          Last Name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <br>
+    <div class="col-md-12">
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input  matInput
+                title = "Username Form Field"
+                [formControl]="usernameFormControl">
+        <mat-error *ngIf="usernameFormControl.hasError('required')">
+          Username is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <br>
+    <div class="col-md-12">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input  type="email"
+                matInput
+                title = "Email Form Field"
+                [formControl]="emailFormControl"
+                [errorStateMatcher]="emailMatcher"
+                placeholder="Ex. pat@example.com">
+        <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+          Please enter a <strong>valid</strong> email address
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <br>
+    <div class="col-md-12 pb-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input  matInput
+                title = "Password Form Field"
+                [type]="hidePassword ? 'password' : 'text'"
+                [formControl]="passwordFormControl">
+        <button mat-icon-button
+                matSuffix
+                (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="passwordFormControl.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="!passwordFormControl.hasError('required') && passwordFormControl.hasError('uppercase')">
+          Password must contain <strong>at least one uppercase</strong> character
+        </mat-error>
+        <mat-error *ngIf="!passwordFormControl.hasError('required') && passwordFormControl.hasError('lowercase')">
+          Password must contain <strong>at least one lowercase</strong> character
+        </mat-error>
+        <mat-error *ngIf="!passwordFormControl.hasError('required') && passwordFormControl.hasError('numeric')">
+          Password must contain <strong>at least one numeric</strong> character
+        </mat-error>
+        <mat-error *ngIf="!passwordFormControl.hasError('required') && passwordFormControl.hasError('special')">
+          Password must contain <strong>at least one special</strong> character
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-12">
+      <button mat-button class="fw-bolder" (click)="submit_btnClicked()" id="register-button">SUBMIT</button>
+    </div>
+  </div>
+</div>

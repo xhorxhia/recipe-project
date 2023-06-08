@@ -1,0 +1,64 @@
+<div class="container">
+  <h1>Comments</h1>
+
+  <hr>
+
+  <div class="d-flex" *ngIf="currentUser.username != ''">
+    <div class="p-2 flex-grow-1">
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Leave a comment...</mat-label>
+        <textarea matInput #itemValue placeholder="Ex. It makes me feel..."></textarea>
+      </mat-form-field>
+    </div>
+    <div class="p-2">
+      <button mat-icon-button style="margin-top: 80%;" (click)="addComment(itemValue.value)">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+      <button mat-icon-button disabled></button>
+      {{getComment(node.item).username}}: {{getComment(node.item).message}}
+    </mat-tree-node>
+
+    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+      <ng-template [ngIf]="node === currentNode" [ngIfElse]="notSelected">
+        <div class="d-flex flex-column">
+          <div class="p-2"><mark>{{getComment(node.item).username}}: {{getComment(node.item).message}}</mark></div>
+          <div class="d-flex" *ngIf="isReplying">
+            <div class="p-2 flex-grow-1">
+              <mat-form-field appearance="fill" style="width: 100%;">
+                <mat-label>Add a reply...</mat-label>
+                <textarea matInput #itemValue placeholder="Ex. It makes me feel..."></textarea>
+              </mat-form-field>
+            </div>
+            <div class="p-2">
+              <button mat-icon-button style="margin-top: 80%;" (click)="addReplyComment(itemValue.value)">
+                <mat-icon>send</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <button *ngIf="isReplying" class="btn btn-light" (click)="onCancel()">Cancel</button>
+        
+      </ng-template>
+      <ng-template #notSelected>
+        <button mat-icon-button [attr.aria-label]="'Toggle ' + node.item" matTreeNodeToggle>
+          <mat-icon>{{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}</mat-icon>
+        </button>
+        {{getComment(node.item).username}}: {{getComment(node.item).message}}
+      </ng-template>
+      <mat-progress-bar *ngIf="node.isLoading" mode="indeterminate"></mat-progress-bar>
+      <button 
+        *ngIf="currentUser.username != ''"
+        class="btn btn-light" 
+        style="margin-left: 20px" 
+        (click)="onReply(node)">
+        Reply
+      </button>
+    </mat-tree-node>
+  </mat-tree>
+
+</div>

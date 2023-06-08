@@ -1,0 +1,20 @@
+package recipes.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
+import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
+import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
+
+@Configuration
+public class MongoConfig extends AbstractMongoClientConfiguration {
+
+    // Other configuration code
+
+    @Override
+    public MongoCustomConversions mongoCustomConversions() {
+        return new MongoCustomConversions(Collections.singletonList(new ObjectIdToUserConverter(userRepository)));
+    }
+
+    // Other configuration code
+}

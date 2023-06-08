@@ -1,0 +1,33 @@
+<mat-toolbar>
+    <span><img width="170" src="assets/Facebook_logo_Complete_var_2.JPG" alt="Recipes Logo" routerLink="/"/></span>
+
+
+    <span class="toolbar-spacer"></span>
+    <span class="text-light">{{userName}}</span>
+    <button mat-icon-button
+            *ngIf="loginState"
+            class="text-light"
+            matTooltip="Profile"
+            matTooltipPosition="below"
+            routerLink="/myprofile">
+      <mat-icon>person</mat-icon>
+    <!-- </a> -->
+    </button>
+    <button mat-icon-button
+            *ngIf="!loginState"
+            (click)="auth_btnClicked()"
+            routerLink="/login"
+            class="text-light"
+            matTooltip="Login"
+            matTooltipPosition="below">
+      <mat-icon>login</mat-icon>
+    </button>
+    <button mat-icon-button
+            *ngIf="loginState"
+            (click)="auth_btnClicked()"
+            class="text-light"
+            matTooltip="Logout"
+            matTooltipPosition="below">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar>

@@ -1,0 +1,37 @@
+<mat-dialog-content>
+  <mat-toolbar style="background-color: white; height: 45px;">
+    <span class="toolbar-spacer"></span>
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <div style="border: solid 2px gray; margin-left: 15%; margin-right: 15%;">
+    <div *ngIf="!selectedFile" class="container-fluid d-flex flex-column justify-content-center align-items-center mt-5">
+      <div class="row m-3">
+        <div class="col-md-12">
+          <button mat-raised-button color="accent" (click)="fileInput.click()">
+            <mat-icon>upload</mat-icon>
+            Choose File
+          </button>
+          <input hidden #fileInput type="file" (change)="onFileChanged($event)">
+        </div>
+      </div>
+      <div class="row m-3">
+        <div class="col-md-12">
+          <p>(file formats supported: <strong>PNG</strong>)</p>
+        </div>
+      </div>
+    </div>
+    <mat-list>
+      <mat-list-item *ngIf="selectedFile" style="height: 100px">
+        <mat-icon mat-list-icon>image</mat-icon>
+        <div mat-line>{{selectedFile.name}}</div>
+        <img [src]="retrievedImage" alt="" style="height: 80px; width: fit-content">
+      </mat-list-item>
+    </mat-list>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onUpload()">Upload</button>
+</mat-dialog-actions>
+

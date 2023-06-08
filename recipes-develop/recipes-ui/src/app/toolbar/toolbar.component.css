@@ -1,0 +1,15 @@
+.mat-toolbar {
+    background-color: #3b5998;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.mat-button {
+    color: white;
+}
+
+.mat-toolbar img {
+    cursor: pointer;
+}

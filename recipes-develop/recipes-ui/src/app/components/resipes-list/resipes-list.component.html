@@ -1,0 +1,70 @@
+<div class="split left">
+    <div class="search">
+        <p>
+            <mat-icon style="color: blue">search</mat-icon> Search:
+        </p>
+        <div class="search-box">
+            <input type="text" class="form-control mb-4" placeholder="Search" [(ngModel)]="query" id="listSearch">
+        </div>
+    </div>
+    <div class="rating">
+        <p class="rating-text">
+            <mat-icon style="color: blue">star</mat-icon> Rating
+        </p>
+        <div class="numbers">
+
+            <div *ngFor="let number of [5,4,3,2, 1]">
+                <mat-checkbox [checked]="nothingSelected" value={{number}} (change)="onChangeDemo($event)"> {{number}}
+                    stars
+                </mat-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="difficulty">
+        <p>
+            <mat-icon style="color: blue">schedule</mat-icon> Difficulty
+        </p>
+        <mat-form-field appearance="fill" style="font-size: 14px; margin-top: 10px;">
+            <mat-label>Select difficulty</mat-label>
+            <mat-select (selectionChange)="onSelectEvent($event.value)">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let difficulty of enumDifficulties" [value]="difficulty">
+                    {{difficulty}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="button">
+        <button mat-flat-button color="primary" (click)="addRecipe()"> Add a recipe </button>
+    </div>
+</div>
+
+<div class="split right">
+    <div class="recipes">
+        <div *ngFor="let recipe of recipes | searchFilter: query">
+            <div (click)="openRecipeDetails(recipe.id)">
+                <mat-card class="recipe-card">
+                    <div class="details">
+                        <mat-card-title class="recipe-name"> {{recipe.name}}
+                        </mat-card-title>
+                        <p class="description">
+                            Description: {{recipe.description}}
+                        </p>
+                        <div style="display: flex; flex-direction: row;  font-weight: 600; font-size: 16px;">
+                            <p>
+                                Stars : {{ recipe.stars }}
+                            </p>
+                            <p style="padding-left: 50px">
+                                Difficulty: {{recipe.recipeDifficulty }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="imageWrapper">
+                        <img class="image" src="{{recipe.imagePath}}">
+
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

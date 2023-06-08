@@ -1,0 +1,27 @@
+#form-container{
+  height: 80%;
+}
+
+#register-form-title{
+  color: rgba(131, 126, 126, 0.756);
+}
+
+.mat-form-field {
+  width: 55%;
+  /*the line above ensures that all FormFields are at the same width*/
+}
+
+#register-button{
+  color: rgba(96, 94, 94, 0.756);
+}
+
+input[type=password]::-ms-reveal,
+input[type=password]::-ms-clear
+{
+    display: none;
+}
+/* the lines above hide the prebundled "Show Password" feature of HTML Password Inputs */
+
+.mat-error{
+  color: #1976d2;
+}

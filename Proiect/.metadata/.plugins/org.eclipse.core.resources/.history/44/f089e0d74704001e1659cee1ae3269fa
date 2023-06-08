@@ -1,0 +1,24 @@
+package recipes.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
+
+import recipes.repository.UserRepository;
+
+import java.util.Collections;
+
+@Configuration
+public class MongoConfig {
+
+    // Other configuration code
+
+    @Bean
+    public MongoCustomConversions mongoCustomConversions(UserRepository userRepository) {
+        return new MongoCustomConversions(Collections.singletonList(new ObjectIdToUserConverter(userRepository)));
+    }
+
+    // Other configuration code
+}
+

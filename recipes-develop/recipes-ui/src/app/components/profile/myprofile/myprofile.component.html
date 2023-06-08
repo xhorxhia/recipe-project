@@ -1,0 +1,74 @@
+<div class="profile-data">
+    <!--
+    <div>
+        <mat-form-field appearance="legacy">
+            <mat-label>First Name</mat-label>
+            <input matInput [(ngModel)]="firstName">
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="legacy">
+            <mat-label>Last Name</mat-label>
+            <input matInput [(ngModel)]="lastName">
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="legacy">
+            <mat-label>Email</mat-label>
+            <input matInput [(ngModel)]="email">
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="legacy">
+            <mat-label>Password</mat-label>
+            <input matInput [(ngModel)]="password">
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="legacy">
+            <mat-label>Confirm password</mat-label>
+            <input matInput [(ngModel)]="confirmPassword">
+        </mat-form-field>
+    </div>
+    <div>
+        <button mat-button>Update</button>
+    </div>
+-->
+
+<form>
+    <div class="form-group">
+        <label for="firstNameInput">First name</label>
+        <input type="text" class="form-control" id="firstNameInput" placeholder="John" name="first" [(ngModel)]="loggedUser.firstName" [disabled]="!editMode">
+    </div>
+    <div class="form-group">
+        <label for="lastNameInput">Last name</label>
+        <input type="text" class="form-control" id="lastNameInput" placeholder="Doe" name="last" [(ngModel)]="loggedUser.lastName"  [disabled]="!editMode">
+    </div>
+    <div class="form-group">
+        <label for="emailInput">Email</label>
+        <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="a@b.com" name="email" [(ngModel)]="loggedUser.email" [disabled]="!editMode">
+        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+    </div>
+    <div class="form-group">
+        <label for="usernameInput">Username</label>
+        <input type="text" class="form-control" id="usernameInput" placeholder="username" name="username" [(ngModel)]="loggedUser.username" [disabled]="!editMode">
+    </div>
+    <div class="form-group" *ngIf="editMode">
+        <label for="inputPassword">Old password</label>
+        <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+    </div>
+    <div class="form-group"  *ngIf="editMode">
+        <label for="inputNewPassword">New password</label>
+        <input type="password" class="form-control" id="inputNewPassword" placeholder="New password">
+    </div>
+    <div class="form-group"  *ngIf="editMode">
+        <label for="confirmNewPassword">Confirm new password</label>
+        <input type="password" class="form-control" id="confirmNewPassword" placeholder="Confirm new password">
+    </div>
+
+    <button type="submit" *ngIf="!editMode" (click)="onEdit()" class="btn btn-primary">Edit</button>
+    <button type="submit" *ngIf="editMode"  (click)="onSave()" class="btn btn-primary">Save</button>
+    &nbsp;
+    <button type="cancel" *ngIf="editMode"  (click)="onCancel()" class="btn btn-primary">Cancel</button>
+  </form>
+</div>

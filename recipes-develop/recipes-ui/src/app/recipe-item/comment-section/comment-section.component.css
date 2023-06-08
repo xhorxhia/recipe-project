@@ -1,0 +1,6 @@
+p.comment-border {
+    margin-left: 30px;
+    border: 2px solid rgb(81, 203, 252);
+    border-radius: 12px;
+    padding: 5px;
+}
