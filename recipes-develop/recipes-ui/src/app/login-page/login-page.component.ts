@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarConfig, MatSnackBar } from '@angular/material/snack-bar';
 
 import { ErrorMessage } from '../enums';
+import { EventService } from "../services/event.servise";
 
 @Component({
     selector: 'app-login',
@@ -47,14 +48,16 @@ export class LoginPageComponent{
         })
         .subscribe(
         (res) => {
-          if(res.body.errorFlag == true){
+          console.log(res);
+          
+          if(res.body?.errorFlag == true){
             this._snackBar.open(res.body.reasoning, 'OK', this.promptConfig);
           }
           else{
             this._toolbar.loggedInUser.next(
               {
                 state: true,
-                userid: res.body.entity.id,
+                userid: res.body?.entity.id,
                 username: res.body.entity.username,
               }
             );

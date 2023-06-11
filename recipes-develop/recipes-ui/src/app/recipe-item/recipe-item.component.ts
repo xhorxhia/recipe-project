@@ -20,6 +20,7 @@ export class RecipeItemComponent implements OnInit {
   id!: string;
   currentUser = { id: '', username: '' };
   recipeImageSrc!: string;
+  ingredientsList = [];
 
 
   constructor(private recipeService: RecipeService, 
@@ -43,6 +44,10 @@ export class RecipeItemComponent implements OnInit {
     this.recipeService.getRecipeById(this.id).subscribe(
       recipe => {
         this.recipe = recipe;
+        console.log(this.recipe);
+        
+        // console.log(this.currentUser);
+        
         this.imageService.getImage(this.recipe.imagePath).subscribe(
           (res) => {
             console.log(res);

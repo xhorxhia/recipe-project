@@ -4,7 +4,6 @@ package recipes.domain;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -24,10 +23,12 @@ public class Recipe {
 	private List<String> steps;
 	private String difficulty;
 	private String category;
-	@DBRef
+	//@DBRef
 	private User author;
 	private String date;
 	private String imagePath;
+	private float stars;
+	private Long count = 0L;
 	
 	
 	public String getId() {
@@ -91,5 +92,19 @@ public class Recipe {
 		this.imagePath = imagePath;
 	}
 
+	public float getStars() {
+		return stars;
+	}
 
+	public void setStars(float stars) {
+		this.stars = stars;
+	}
+
+	public Long getCount() {
+		return count;
+	}
+
+	public void setCount(Long count) {
+		this.count = count;
+	}
 }

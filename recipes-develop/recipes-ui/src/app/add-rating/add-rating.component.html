@@ -1,0 +1,25 @@
+<div class="container">
+    <h1>Rating</h1>
+  
+    <hr>
+  
+    <div class="d-flex" > <!--*ngIf="currentUser.username != ''"-->
+      <div class="p-2 flex-grow-1">
+        <mat-form-field appearance="fill" style="width: 100%;">
+          <mat-label>Rate recipe...</mat-label>
+         <mat-select [(ngModel)]="selectedValue">
+            <mat-option *ngFor="let rate of ratings" [value]="rate" >
+                {{rate}}
+            </mat-option>
+         </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="p-2">
+        <button mat-icon-button style="margin-top: 80%;" (click)="addRate(selectedValue)">
+          <mat-icon>send</mat-icon>
+        </button>
+      </div>
+    </div>
+  
+  
+  </div>

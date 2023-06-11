@@ -40,22 +40,27 @@
 </div>
 
 <div class="split right">
-    <div class="recipes">
+
+   <mat-label>All recipes</mat-label>
+    <div class="recipes">        
         <div *ngFor="let recipe of recipes | searchFilter: query">
             <div (click)="openRecipeDetails(recipe.id)">
                 <mat-card class="recipe-card">
                     <div class="details">
                         <mat-card-title class="recipe-name"> {{recipe.name}}
                         </mat-card-title>
-                        <p class="description">
+                        <!-- <p class="description">
                             Description: {{recipe.description}}
-                        </p>
+                        </p> -->
                         <div style="display: flex; flex-direction: row;  font-weight: 600; font-size: 16px;">
                             <p>
                                 Stars : {{ recipe.stars }}
                             </p>
                             <p style="padding-left: 50px">
-                                Difficulty: {{recipe.recipeDifficulty }}
+                                Difficulty: {{recipe.difficulty}}
+                            </p>
+                            <p style="padding-left: 50px">
+                                Category: {{recipe.category }}
                             </p>
                         </div>
                     </div>

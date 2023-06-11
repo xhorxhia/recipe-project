@@ -5,21 +5,18 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document("ratings")
+//@Document("ratings")
 public class Rating {
-    @Id
-    private String id;
+//    @Id
+//    private String id;
     private String userId;
     private String recipeId;
-    private int rating;
+    private Float stars;
     
-    public int getRating() {
-    	return rating;
-    }
-    
-    public String getRecipeId() {
-    	return recipeId;
-    }
+
+
 }

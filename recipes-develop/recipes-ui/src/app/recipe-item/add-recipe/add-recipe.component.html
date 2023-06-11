@@ -1,0 +1,80 @@
+<div style="width: 50%; margin-left: 20%;">
+    <h1>Add a new Recipe</h1>
+    <br><br><br>
+    <form [formGroup]="addRecipeForm" (ngSubmit)="addRecipe(addRecipeForm.value)">
+
+        <div fxLayout="row" fxLayoutGap="10px">
+            <div fxFlexFill>
+                <mat-form-field style="width: 100%">
+                    <mat-label>Recipe name
+                    </mat-label>
+                    <input matInput required formControlName="name" type="text">
+                </mat-form-field>
+            </div>
+            <br>
+           
+            <div fxFlexFill>
+                <mat-form-field style="width: 100%">
+                    <mat-label>Category
+                    </mat-label>
+                    <input matInput required formControlName="category" type="text">
+                </mat-form-field>
+            </div>
+             
+                <br>
+            <div fxFlexFill >
+                <mat-form-field style="width: 100%">
+                    <mat-label>Difficulty </mat-label>
+                    <mat-select required formControlName="difficulty">
+                        <mat-option *ngFor="let dif of difficultyArray" [value]="dif">
+                            {{dif}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <br>
+            <div fxFlexFill>
+                <mat-form-field style="width: 100%">
+                    <mat-label>Date </mat-label>
+                    <input matInput required formControlName="date" type="date">
+                </mat-form-field>
+            </div>
+            <br>
+            <div fxFlexFill>
+                <mat-form-field style="width: 100%">
+                    <mat-label>Description </mat-label>
+                    <textarea matInput required formControlName="description" type="text"></textarea>
+                </mat-form-field>
+            </div>
+            <br>
+            <div fxFlexFill>
+                <mat-form-field style="width: 100%">
+                    <mat-label>Ingredients (Put ingredients separated with comma) </mat-label>
+                    <input matInput required formControlName="ingredients" type="text">
+                </mat-form-field>
+            </div>
+            <br>
+            <div fxFlexFill>
+                <mat-form-field style="width: 100%">
+                    <mat-label>Steps (Put steps separated with comma)</mat-label>
+                    <textarea  matInput required formControlName="steps" type="text"></textarea>
+                </mat-form-field>
+            </div>
+            <br>
+            <div fxFlexFill>
+                <div class="d-flex align-items-left" style="margin-bottom: 10px;">
+                    <img [src]="recipeImageSrc" class="image-responsive" style="max-height: 300px">
+                </div>
+                <div class="d-flex align-items-left">
+                    <button class="btn btn-light" type="button" (click)="onUploadRecipeImage()">
+                        Upload image
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <button mat-button color="primary">Save</button>
+       
+
+    </form>
+</div>

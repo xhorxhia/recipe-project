@@ -20,10 +20,10 @@ public class Image {
     @NonNull
     private String content;
     
-    public Image(@NonNull String name, @NonNull String type, @NonNull String content) {
-		super();
-		this.name = name;
-		this.type = type;
-		this.content = content;
-	}
+//    public Image(@NonNull String name, @NonNull String type, @NonNull String content) {
+//		super();
+//		this.name = name;
+//		this.type = type;
+//		this.content = content;
+//	}
 }

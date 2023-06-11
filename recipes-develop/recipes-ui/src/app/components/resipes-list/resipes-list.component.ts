@@ -3,6 +3,8 @@ import { RecipesListService } from 'src/app/services/recipes-list.service';
 import { Router } from '@angular/router';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Recipe } from 'src/app/recipe-item/recipe.model';
+import { HttpContext } from '@angular/common/http';
+import { EventService } from 'src/app/services/event.servise';
 
 @Component({
   selector: 'app-resipes-list',
@@ -25,14 +27,19 @@ export class ResipesListComponent implements OnInit {
 
   enumDifficulties: string[] = ['Easy', 'Medium', 'Advanced', 'Unrated'];
 
+
+
+  
   constructor(private recipesListService: RecipesListService, private router: Router) { }
 
   ngOnInit(): void {
-    this.recipesListService.getRecipesList().subscribe(data => {
+    
+    this.recipesListService.getRecipesList().subscribe(data => { 
       this.originalRecipes = data;
       this.recipes = this.originalRecipes
       console.log(this.originalRecipes)
     })
+
   }
 
   onChangeDemo(ob: MatCheckboxChange) {
@@ -80,11 +87,11 @@ export class ResipesListComponent implements OnInit {
     } else {
       if (this.selectedStars.length == 0) {
         this.recipes = this.originalRecipes.filter((recipe) => {
-          return value.indexOf(recipe.recipeDifficulty) != -1;
+          return value.indexOf(recipe.difficulty) != -1;
         })
       } else {
         this.recipes = this.filteredRecipes.filter((recipe) => {
-          return value.indexOf(recipe.recipeDifficulty) != -1;
+          return value.indexOf(recipe.difficulty) != -1;
         })
       }
     }
@@ -92,10 +99,15 @@ export class ResipesListComponent implements OnInit {
 
   addRecipe() {
 
+    this.router.navigate(['/addRecipe']);
   }
 
   openRecipeDetails(id: string): void {
     this.router.navigate(['', id]);
   }
+
+  // goToProfile(){
+  //   this.router.navigate(['/myprofile']);
+  // }
 }
 

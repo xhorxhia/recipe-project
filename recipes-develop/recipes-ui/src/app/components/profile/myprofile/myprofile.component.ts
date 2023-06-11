@@ -28,6 +28,7 @@ export class MyProfileComponent implements OnInit {
 
     ngOnInit(): void {
       this.loggedUser = JSON.parse(localStorage.getItem('recipes.loggedUser') || "{}");
+     console.log(this.loggedUser);
     }
 
 

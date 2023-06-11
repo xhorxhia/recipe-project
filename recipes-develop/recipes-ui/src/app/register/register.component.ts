@@ -42,7 +42,11 @@ export class RegisterComponent implements OnInit {
     duration: 2 * 1000
   }
 
-  constructor(private _service: RegisterService, private _encryption: EncryptionPipe, private _snackBar: MatSnackBar, private _router: Router) {}
+  constructor(private _service: RegisterService,
+     private _encryption: EncryptionPipe,
+      private _snackBar: MatSnackBar, 
+      private _router: Router,
+    ) {}
 
   ngOnInit(): void {
   }
@@ -64,15 +68,16 @@ export class RegisterComponent implements OnInit {
           password: this.passwordFormControl.value === null ? undefined : this._encryption.transform(this.passwordFormControl.value)
         })
         .subscribe(
-        (res) => {
-          if(res.body.errorFlag == true){
+        (res) => {  
+         
+          if(res.body?.errorFlag == true){
             this._snackBar.open(res.body.reasoning, 'OK', this.promptConfig);
           }
-          else{
-            this._router.navigate(['/login']);
+          else{   
+            this._router.navigate(['/']);
           }
         },
-        (error) => {
+        (error) =>  {
           if(error.status == 0){
             this._snackBar.open(ErrorMessage.StatusZeroRequest, 'OK', this.promptConfig);
           }

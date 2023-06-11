@@ -1,5 +1,6 @@
 package recipes.controller;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,16 +34,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<AuthResponse<User>> addUser(@RequestBody User user){
+    public void addUser(@RequestBody User user){
         if (repository.findByUsername(user.getUsername()).isPresent()){
-          //  return ResponseEntity.ok().body(new AuthResponse<>(user, true, "Account with the given username already exists"));
+            throw new IllegalArgumentException("User already exists");
+           // return ResponseEntity.ok().body(new AuthResponse<>(user, true, "Account with the given username already exists"));
         }
         if (repository.findByEmail(user.getEmail()).isPresent()) {
           //  return ResponseEntity.ok().body(new AuthResponse<>(user, true, "Account with the given email already exists"));
         }
         repository.save(user);
         //return ResponseEntity.ok().body(new AuthResponse<>(user));
-        return null;
+
     }
     
     @RequestMapping(value="/update", method = RequestMethod.PUT)
@@ -73,10 +75,11 @@ public class UserController {
     public ResponseEntity<AuthResponse<User>> checkUser(@RequestBody User user){
         Optional<User> localUser = repository.findByUsername(user.getUsername());
         if(localUser.isPresent() && localUser.get().getPassword().matches(user.getPassword())){
-           // return ResponseEntity.ok().body(new AuthResponse<>(localUser.get()));
+
+            return ResponseEntity.ok().body(new AuthResponse<>(localUser.get()));
         }
-        //return ResponseEntity.ok().body(new AuthResponse<>(user, true, "Account doesn't exist"));
-        return null;
+        return ResponseEntity.ok().body(new AuthResponse<>(user, true, "Account doesn't exist"));
+        //return null;
     }
     
     //Method for getting a user type object based on id for the ComplexRecipe object type
@@ -86,4 +89,10 @@ public class UserController {
 		if(author.isPresent())return author.get();
 		else return null;
 	}
+
+//    @RequestMapping(value = "myUser", method = RequestMethod.GET)
+//    public User getUserLoggedIn() {
+//
+//    }
+
 }

@@ -45,6 +45,9 @@ import { ImageUploadDialogComponent } from './image-upload-dialog/image-upload-d
 import { ProfileComponent } from './components/profile/profile.component';
 import { MyProfileComponent } from './components/profile/myprofile/myprofile.component';
 import { UsersService } from './services/users.service';
+import { AddRecipeComponent } from './recipe-item/add-recipe/add-recipe.component';
+import { AddRatingComponent } from './add-rating/add-rating.component';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 const appRoutes: Routes = [
@@ -62,16 +65,17 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    component: ResipesListComponent
+    component: ResipesListComponent  // home
   },
   {
-    path: 'recipes/:id', component: RecipeItemComponent
+    path: 'addRecipe',  component: AddRecipeComponent    // add recete
+   // path: 'recipes/:id', component: RecipeItemComponent
   },
   {
     path: 'myrecipes', component: MyRecipesListCompoent
   },
   {
-    path: ':id', component: RecipeItemComponent
+    path: ':id', component: RecipeItemComponent  // get a recete
   },
   {
     path: ':id/edit', component: RecipeEditComponent
@@ -93,7 +97,9 @@ const appRoutes: Routes = [
     RecipeEditComponent,
     ImageUploadDialogComponent,
     ProfileComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    AddRecipeComponent,
+    AddRatingComponent
   ],
 
   imports: [
@@ -128,7 +134,8 @@ const appRoutes: Routes = [
     MatCheckboxModule,
     MatTooltipModule,
     MatDialogModule,
-    MatTabsModule
+    MatTabsModule,
+    MatChipsModule
   ],
   exports: [
     RouterModule,

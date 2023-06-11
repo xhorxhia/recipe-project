@@ -22,7 +22,47 @@
             </div>
             <br>
             <div class="row">
-                <div class="col-xs-12" formArrayName="ingredients">
+                <label style="font-weight: bold;">Ingredients</label>{{recipe.ingredients}}
+                <mat-select-trigger >
+                    <mat-chip-list formControlName="ingredients">
+                        <mat-chip
+                              *ngFor="let ing of recipe.ingredients; let i = index"
+                              [removable]="true" (removed)="onIngredientRemoved(ing)">
+                            {{ ing }}
+                        <mat-icon matChipRemove>cancel</mat-icon>   
+                        </mat-chip>
+                    </mat-chip-list>
+                </mat-select-trigger>
+
+                <div fxFlex="10" fxLayoutAlign="center center">
+                    <label>Add ingredient</label>
+                    <button mat-icon-button type="button" color="primary">
+                        <mat-icon *ngIf="!show"
+                                  (click)="toggleAddIngredientForm(true)">add_circle
+                        </mat-icon>
+                        <mat-icon *ngIf="show" (click)="toggleAddIngredientForm(false)">
+                            remove_circle
+                        </mat-icon>
+                    </button>
+                </div>
+                <div *ngIf="show===true" style="width: 50%">
+                    <div fxLayout="row" fxLayoutGap="10px" style="width: 100%">
+                        <div fxFlexFill fxFlex='50'>
+                            <mat-form-field style="width: 100%">
+                                <mat-label>New ingredient
+                                </mat-label>
+                                <input matInput formControlName="newIngredient" type="text" >
+                            </mat-form-field>
+                        </div>
+                        <div fxFlexFill fxFlex='50'>
+                            <button type="submit" mat-raised-button color="primary" (click)="addNewIngredient(recipeForm.get('newIngredient')?.value)">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                </div>  
+
+                <!-- <div class="col-xs-12" formArrayName="ingredients">
                     <label for="ingredients" style="font-weight: bold;">Ingredients</label>
                     <div 
                         class="row align-items-start" 
@@ -46,11 +86,53 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <br>
             <div class="row">
-                <div class="col-xs-12" formArrayName="steps">
+
+                <label style="font-weight: bold;">Steps</label>
+                <mat-select-trigger >
+                    <mat-chip-list formControlName="steps">
+                        <mat-chip
+                              *ngFor="let st of recipe?.steps; let i = index"
+                              [removable]="true" (removed)="onStepsRemoved(st)">
+                            {{ st }}
+                        <mat-icon matChipRemove>cancel</mat-icon>   
+                        </mat-chip>
+                    </mat-chip-list>
+                </mat-select-trigger>
+
+                <div fxFlex="10" fxLayoutAlign="center center">
+                    <label>Add step</label>
+                    <button mat-icon-button type="button" color="primary">
+                        <mat-icon *ngIf="!show"
+                                  (click)="toggleAddStepsForm(true)">add_circle
+                        </mat-icon>
+                        <mat-icon *ngIf="show" (click)="toggleAddStepsForm(false)">
+                            remove_circle
+                        </mat-icon>
+                    </button>
+                </div>
+                <div *ngIf="showSteps===true" style="width: 50%">
+                    <div fxLayout="row" fxLayoutGap="10px" style="width: 100%">
+                        <div fxFlexFill fxFlex='70'>
+                            <mat-form-field style="width: 100%">
+                                <mat-label>New step
+                                </mat-label>
+                                <input matInput formControlName="newStep" type="text" >
+                            </mat-form-field>
+                        </div>
+                        <div fxFlexFill fxFlex='50'>
+                            <button type="submit" mat-raised-button color="primary" (click)="addNewStep(recipeForm.get('newStep')?.value)">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                </div>  
+
+
+                <!-- <div class="col-xs-12" formArrayName="steps">
                     <label for="steps" style="font-weight: bold;">Steps</label>
                     <div class="row align-items-start" *ngFor="let ingCtrl of getControlsSteps(); let i = index"
                         [formGroupName]="i" style="margin-top: 10px">
@@ -71,7 +153,7 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
@@ -108,7 +190,7 @@
             <div class="row">
                 <div class="col-xs-12 text-end">
                     <p style="font-style: italic">Date: {{ recipeDate }}</p>
-                    <p style="font-style: italic">Author: {{ recipe.author.username }}</p>
+                    <p style="font-style: italic">Author: {{ recipe.author?.username }}</p>
                 </div>
             </div>
             <br><br>

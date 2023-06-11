@@ -42,8 +42,10 @@ public class RecipeController {
 	private RatingsRepository ratingsRepository;
 
 	@GetMapping
-	public ResponseEntity<List<RecipeDTO>> findAll(){
-		return new ResponseEntity<>(this.recipeService.getAllRecipes(), HttpStatus.OK);
+	public ResponseEntity<List<Recipe>> findAll(){
+//		return new ResponseEntity<>(this.recipeService.getAllRecipes(), HttpStatus.OK);
+		List<Recipe> recipes = recipeRepository.findAll();
+		return new ResponseEntity<>(recipes, HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
@@ -55,7 +57,9 @@ public class RecipeController {
 			// ! ~ Tavi <3
 			if (recipe.isPresent()) {
 
-				return new ResponseEntity<>(new RecipeDTO(recipe.get()), HttpStatus.OK);
+				RecipeDTO rec = new RecipeDTO(recipe.get());
+				rec.setStars(recipe.get().getStars());
+				return new ResponseEntity<>(rec, HttpStatus.OK);
 			}
 			
 			return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -67,18 +71,24 @@ public class RecipeController {
 
 	@PostMapping("/add")
 	public ResponseEntity<RecipeDTO> addRecipe(@RequestBody RecipeDTO recipeDto) {
-		Optional<User> authOpt = this.userRepository.findById(recipeDto.getAuthor().getId());
+		//Optional<User> authOpt = this.userRepository.findById(recipeDto.getAuthor().getId());
 		
-		if(!authOpt.isPresent()){
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+//		if(!authOpt.isPresent()){
+//			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//		}
 		
 		Recipe recipe = new Recipe();
 		recipe.setName(recipeDto.getName());
 		recipe.setCategory(recipeDto.getCategory());
+		recipe.setDifficulty(recipeDto.getRecipeDifficulty());
 		recipe.setDate(recipeDto.getDate());
 		recipe.setDescription(recipeDto.getDescription());
-		recipe.setAuthor(authOpt.get());
+		recipe.setIngredients(recipeDto.getIngredients());
+		recipe.setAuthor(recipeDto.getAuthor());
+		recipe.setSteps(recipeDto.getSteps());
+		recipe.setImagePath(recipeDto.getImagePath());
+//		recipe.setAuthor(authOpt.get());
+
 		
 		
 		Recipe savedRecipe = this.recipeRepository.save(recipe);
@@ -118,14 +128,15 @@ public class RecipeController {
 	@GetMapping("filter/author/{authorId}")
 	public ResponseEntity<List<RecipeDTO>> getRecipesByAuthor(@PathVariable String authorId){
 		try {
-		DBRef authorDBRef = new DBRef("users", authorId);
+		//DBRef authorDBRef = new DBRef("users", authorId);
+		User user  = userRepository.findById(authorId).get();
 		List<RecipeDTO> recipesDTO = new ArrayList<>();
-		List<Recipe> recipes = this.recipeRepository.findByAuthor(authorDBRef);
+		List<Recipe> recipes = this.recipeRepository.findByAuthor(user);
 		recipes.forEach(recipe -> {
 			RecipeDTO recipedto = new RecipeDTO(recipe);
 			this.recipeService.getAvgRatings().forEach(avgRating -> {
 				if (avgRating.get_id().equals(String.valueOf(recipe.getId()))) {	
-					recipedto.setStars(avgRating.getRating());
+					recipedto.setStars((long) avgRating.getRating());
 				}
 			});
 			recipesDTO.add(recipedto);

@@ -10,7 +10,7 @@ import { MyRecipesListService } from "./my-recipes-list.service";
     styleUrls: ["./my-recipes-list.component.css"]
 })
 export class MyRecipesListCompoent implements OnInit {
-    recipes: Recipe[] = [];
+    recipes: any[] = [];
     userId: string | undefined;
     deletedRecipes: String[] = [];
 
@@ -21,10 +21,13 @@ export class MyRecipesListCompoent implements OnInit {
     }
 
     ngOnInit(): void {
+      
+        
         //this.userId = this.toolbarService.userId;
         if (this.userId !== undefined){
             this.myRecipeListService.getRecipesByAuthor(this.userId).subscribe(returnRecipes => {
                 this.recipes = returnRecipes;
+                console.log( this.recipes );
             });
         }
     }

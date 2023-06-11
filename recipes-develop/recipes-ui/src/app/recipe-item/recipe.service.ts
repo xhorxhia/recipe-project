@@ -25,11 +25,8 @@ export class RecipeService {
 
     public updateRecipe(id: string, recipe: Recipe) {
         const body = JSON.stringify(recipe);
-        return this.http.put<Recipe>(
-            this.recipesUrl+'/update/'+id,
-            body,
-            { headers: { 'Content-Type': 'application/json' } }
-            );
+        return this.http.put<Recipe>(this.recipesUrl+'/update/'+id, body,
+                                     { headers: { 'Content-Type': 'application/json' } });
     }
     
 }

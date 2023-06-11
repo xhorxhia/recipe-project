@@ -1,7 +1,7 @@
 <div class="row m-3">
     <div class="col-sm-4 col-6 col-md-3 col-lg-2" *ngFor="let recipe of recipes; index as i">
       <div class="card mb-3" (click)="openRecipeDetails(recipe.id)" id="recipe-card">
-        <img class="card-img-top" src="https://picsum.photos/200" alt="Card image cap">
+        <img class="card-img-top" [src]="recipe.imagePath"  alt="Card image cap">
         <div class="card-body">
           <h3 class="card-title mb-0"><strong>{{recipe.name}}</strong></h3>
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

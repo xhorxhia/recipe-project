@@ -8,7 +8,7 @@ import { CommentService } from './comment.service';
 import { DynamicDatabase, DynamicFlatNode } from './dynamic-database.service';
 import { DynamicDataSource } from './dynamic-data-source.service';
 import { ToolbarService } from 'src/app/toolbar/toolbar.service';
-import { AuthState } from 'src/app/interfaces';
+import { AuthState, User } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-comment-section',
@@ -19,10 +19,11 @@ import { AuthState } from 'src/app/interfaces';
 export class CommentSectionComponent implements OnInit {
   comments!: Comment[];
   recipeId!: string;
-  newComment!: Comment;
+  newComment!: any;
   isReplying = false;
   currentNode!: DynamicFlatNode;
   currentUser = { id: '', username: '' };
+  loggedUser : User = {};
 
   ngOnInit(): void { 
     this.route.params.subscribe(
@@ -43,6 +44,7 @@ export class CommentSectionComponent implements OnInit {
         }
         this.dataSource.data = this.database.initialData(this.comments); }
     );
+    this.loggedUser = JSON.parse(localStorage.getItem('recipes.loggedUser') || "{}");
   }
 
   constructor(private database: DynamicDatabase, 
@@ -56,7 +58,7 @@ export class CommentSectionComponent implements OnInit {
     this.toolbarService.loggedInUser.subscribe(
       (state: AuthState) =>
       {
-        console.log(state);
+        // console.log(state);
         this.currentUser.id = state.userid;
         this.currentUser.username = state.username;
       }
@@ -77,14 +79,16 @@ export class CommentSectionComponent implements OnInit {
         result = this.comments[key];
       }
     }
+    //console.log(result);
+    
     return result;
   }
 
   addComment(itemValue: string){
     if (itemValue !== '') {  
       this.newComment.recipeId = this.recipeId;
-      this.newComment.userId = this.currentUser.id;
-      this.newComment.username = this.currentUser.username;
+      this.newComment.userId = this.loggedUser.id;
+      this.newComment.username = this.loggedUser.username;
       this.newComment.parentId = '0';
       this.newComment.message = itemValue;
       this.commentService.addComment(this.newComment).subscribe();

@@ -12,6 +12,6 @@ export class Recipe {
     date!: string;
     imagePath!: string;
     rating!: Number;
-    stars!: Number;
+    stars!: any;
     recipeDifficulty!: string;
 }

@@ -3,6 +3,7 @@ package recipes.dtos;
 import lombok.*;
 import recipes.domain.Recipe;
 import recipes.domain.User;
+
 import java.util.List;
 
 
@@ -20,6 +21,8 @@ public class RecipeDTO {
     private String date;
     private String imagePath;
     private float stars;
+	private String recipeDifficulty;
+
 
 	private enum difficulty{
     	Easy,
@@ -27,38 +30,38 @@ public class RecipeDTO {
     	Advanced,
     	Unrated
     }
-	difficulty recipeDifficulty;
+	//difficulty recipeDifficulty;
     
-	 public RecipeDTO(String id, String name, String description,List<String> ingredients, List<String> steps, String category, User author, String date, String imagePath,float stars,String dif) {
-			this.id = id;
-			this.name = name;
-			this.description = description;
-			this.ingredients = ingredients;
-			this.steps = steps;
-			this.category = category;
-			this.author = author;
-			this.date = date;
-			this.stars = stars;
-			this.imagePath = imagePath;
-			
-			switch(dif){
-				case "Easy":
-					this.recipeDifficulty= difficulty.Easy;
-					break;
-					
-				case "Medium":
-					this.recipeDifficulty= difficulty.Medium;
-					break;
-					
-				case "Advanced":
-					this.recipeDifficulty= difficulty.Advanced;
-					break;
-					
-				default:
-					this.recipeDifficulty= difficulty.Unrated;
-					break;
-			}
-	}
+//	 public RecipeDTO(String id, String name, String description,String ingredients, List<String> steps, String category, String author, String date, String imagePath,float stars,String dif) {
+//			this.id = id;
+//			this.name = name;
+//			this.description = description;
+//			this.ingredients = ingredients;
+//			this.steps = steps;
+//			this.category = category;
+//			this.author = author;
+//			this.date = date;
+//			this.stars = stars;
+//			this.imagePath = imagePath;
+//
+//			switch(dif){
+//				case "Easy":
+//					this.recipeDifficulty= difficulty.Easy;
+//					break;
+//
+//				case "Medium":
+//					this.recipeDifficulty= difficulty.Medium;
+//					break;
+//
+//				case "Advanced":
+//					this.recipeDifficulty= difficulty.Advanced;
+//					break;
+//
+//				default:
+//					this.recipeDifficulty= difficulty.Unrated;
+//					break;
+//			}
+//	}
 	
 
 	 public RecipeDTO(Recipe res) {
@@ -135,7 +138,14 @@ public class RecipeDTO {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-
+//
+//	public String getDif() {
+//		return dif;
+//	}
+//
+//	public void setDif(String dif) {
+//		this.dif = dif;
+//	}
 
 	public User getAuthor() {
 		return author;
@@ -177,12 +187,12 @@ public class RecipeDTO {
 	}
 
 
-	public difficulty getRecipeDifficulty() {
+	public String getRecipeDifficulty() {
 		return recipeDifficulty;
 	}
 
 
-	public void setRecipeDifficulty(difficulty recipeDifficulty) {
+	public void setRecipeDifficulty(String recipeDifficulty) {
 		this.recipeDifficulty = recipeDifficulty;
 	}
 	 

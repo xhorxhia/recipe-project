@@ -7,33 +7,41 @@
       <dl>
         <dt style="font-size: large">Description:</dt>
         <dd class="text-info">{{recipe.description}}</dd>
-      </dl> 
-
-      <dl>
-        <dt style="font-size: large">Ingredients:</dt>
-        <dd>
-          <mat-selection-list #ingredients>
-            <mat-list-option *ngFor="let ingredient of recipe.ingredients">
-              <!--<mat-icon mat-list-icon>add</mat-icon> -->
-              {{ingredient}}
-            </mat-list-option>
-          </mat-selection-list>
-          <!-- Checked: {{ingredients.selectedOptions.selected.length}} / {{recipe.ingredients.length}} -->
-        </dd>
       </dl>
 
       <dl>
+        <dt style="font-size: large">Ingredients:</dt>
+        <dd class="text-info">
+          <mat-select-trigger>
+            <mat-chip-list>
+                <mat-chip
+                      *ngFor="let ing of recipe.ingredients"
+                      [removable]="false" >
+                    {{ ing }}
+                    
+                </mat-chip>
+            </mat-chip-list>
+        </mat-select-trigger>
+          <!-- <mat-selection-list #ingredients>
+            <mat-list-option *ngFor="let ingredient of recipe.ingredients">
+              {{ingredient}}
+            </mat-list-option>
+          </mat-selection-list> -->
+        </dd>
+      </dl>
+
+      <!-- <dl>
         <dt style="font-size: large">Steps:</dt>
         <dd>
           <mat-list role="list">
-            <mat-list-item 
-              role="listitem"  
-              *ngFor="let step of recipe.steps; let i = index"> 
+            <mat-list-item
+              role="listitem"
+              *ngFor="let step of recipe.steps; let i = index">
               Step {{i+1}}: {{step}}
             </mat-list-item>
           </mat-list>
         </dd>
-      </dl>
+      </dl> -->
 
       <h3><strong>Difficulty:</strong> {{recipe.recipeDifficulty}}</h3>
       <h3><strong>Category:</strong> {{recipe.category}}</h3>
@@ -42,23 +50,24 @@
 
     <div class="col-md-7 text-end">
       <p style="font-style: italic">Date: {{ recipe.date }}</p>
-      <p style="font-style: italic">Author: {{ recipe.author.username }}</p>
-      <img 
-        [src]="recipeImageSrc" 
+      <p style="font-style: italic">Author: {{ recipe.author?.username }}</p>
+      <img
+        [src]="recipe.imagePath"
         alt="{{recipe.name}}"
         class="image-responsive"
         style="max-height: 300px">
       <div class="d-flex justify-content-end">
         <div class="btn-group">
-          <mat-icon *ngIf="recipe.rating >= 1" [ngStyle]="{'color':'orange'}">star</mat-icon>
-          <mat-icon *ngIf="recipe.rating >= 2" [ngStyle]="{'color':'orange'}">star</mat-icon>
-          <mat-icon *ngIf="recipe.rating >= 3" [ngStyle]="{'color':'orange'}">star</mat-icon>
-          <mat-icon *ngIf="recipe.rating >= 4" [ngStyle]="{'color':'orange'}">star</mat-icon>
-          <mat-icon *ngIf="recipe.rating >= 5" [ngStyle]="{'color':'orange'}">star</mat-icon>
+          <mat-icon *ngIf="recipe.stars == 0" [ngStyle]="{'color':'white'}">star</mat-icon>
+          <mat-icon *ngIf="recipe.stars >= 1" [ngStyle]="{'color':'orange'}">star</mat-icon>
+          <mat-icon *ngIf="recipe.stars >= 2" [ngStyle]="{'color':'orange'}">star</mat-icon>
+          <mat-icon *ngIf="recipe.stars >= 3" [ngStyle]="{'color':'orange'}">star</mat-icon>
+          <mat-icon *ngIf="recipe.stars >= 4" [ngStyle]="{'color':'orange'}">star</mat-icon>
+          <mat-icon *ngIf="recipe.stars >= 5" [ngStyle]="{'color':'orange'}">star</mat-icon>
         </div>
         <div class="col-xs-2">
-          <button 
-          class="btn btn-default" 
+          <button
+          class="btn btn-default"
           type="button"
           (click)="onFavorite()"
           *ngIf="!favBtnEnabled; else enabled">
@@ -66,15 +75,15 @@
         </button>
         <ng-template #enabled>
           <button
-            class="btn btn-default" 
+            class="btn btn-default"
             (click)="onFavorite()">
             <mat-icon [ngStyle]="{'color':'red'}">favorite</mat-icon>
           </button>
-        </ng-template>  
-        </div>    
+        </ng-template>
+        </div>
       </div>
 
-      <div *ngIf="recipe.author.username === currentUser.username">
+      <div *ngIf="recipe.author?.username === currentUser.username">
         <button
           class="btn btn-success"
           (click)="onEdit()">
@@ -84,9 +93,13 @@
 
     </div>
   </div>
+  
+  <hr>
+  <div class="row">
+    <app-add-rating [recipe]="recipe"></app-add-rating>
+  </div>
 
   <hr>
-
   <div class="row">
     <app-comment-section></app-comment-section>
   </div>
