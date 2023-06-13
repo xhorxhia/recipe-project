@@ -5,13 +5,19 @@
         <div class="card-body">
           <h3 class="card-title mb-0"><strong>{{recipe.name}}</strong></h3>
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-          <div class="mt-0 mb-1">          
-            <span class="fa" [ngClass]="{'fa-star' : recipe.stars > 0, 'fa-star-o':  recipe.stars <= 0, 'text-warning' : recipe.stars > 0}" id="star1"></span>
+          <div class="mt-0 mb-1">{{recipe.stars}}   
+            <mat-icon *ngIf="recipe.stars == 0" [ngStyle]="{'color':'white'}">star</mat-icon>
+            <mat-icon *ngIf="recipe.stars >= 1" [ngStyle]="{'color':'orange'}">star</mat-icon>
+            <mat-icon *ngIf="recipe.stars >= 2" [ngStyle]="{'color':'orange'}">star</mat-icon>
+            <mat-icon *ngIf="recipe.stars >= 3" [ngStyle]="{'color':'orange'}">star</mat-icon>
+            <mat-icon *ngIf="recipe.stars >= 4" [ngStyle]="{'color':'orange'}">star</mat-icon>
+            <mat-icon *ngIf="recipe.stars >= 5" [ngStyle]="{'color':'orange'}">star</mat-icon>       
+            <!-- <span class="fa" [ngClass]="{'fa-star' : recipe.stars > 0, 'fa-star-o':  recipe.stars <= 0, 'text-warning' : recipe.stars > 0}" id="star1"></span>
             <span class="fa" [ngClass]="{'fa-star' : recipe.stars > 1, 'fa-star-o':  recipe.stars <= 1, 'text-warning' : recipe.stars > 1}" id="star2"></span>
             <span class="fa" [ngClass]="{'fa-star' : recipe.stars > 2, 'fa-star-o':  recipe.stars <= 2, 'text-warning' : recipe.stars > 2}" id="star3"></span>
             <span class="fa" [ngClass]="{'fa-star' : recipe.stars > 3, 'fa-star-o':  recipe.stars <= 3, 'text-warning' : recipe.stars > 3}" id="star4"></span>
-            <span class="fa" [ngClass]="{'fa-star' : recipe.stars > 4, 'fa-star-o':  recipe.stars <= 4, 'text-warning' : recipe.stars > 4}" id="star5"></span>
-            <span id="rating-value" class="ms-2 text-primary">{{recipe?.stars?.toString() | number : '1.1-1'}}</span>
+            <span class="fa" [ngClass]="{'fa-star' : recipe.stars > 4, 'fa-star-o':  recipe.stars <= 4, 'text-warning' : recipe.stars > 4}" id="star5"></span> -->
+            <!-- <span id="rating-value" class="ms-2 text-primary">{{recipe?.stars?.toString() | number : '1.1-1'}}</span> -->
           </div>
           <p class="card-text">{{recipe.description}}</p>
           <ul class="list-inline mb-0">

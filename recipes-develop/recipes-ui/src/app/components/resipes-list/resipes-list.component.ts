@@ -3,8 +3,7 @@ import { RecipesListService } from 'src/app/services/recipes-list.service';
 import { Router } from '@angular/router';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Recipe } from 'src/app/recipe-item/recipe.model';
-import { HttpContext } from '@angular/common/http';
-import { EventService } from 'src/app/services/event.servise';
+
 
 @Component({
   selector: 'app-resipes-list',
@@ -29,12 +28,12 @@ export class ResipesListComponent implements OnInit {
 
 
 
-  
+
   constructor(private recipesListService: RecipesListService, private router: Router) { }
 
   ngOnInit(): void {
-    
-    this.recipesListService.getRecipesList().subscribe(data => { 
+
+    this.recipesListService.getRecipesList().subscribe(data => {
       this.originalRecipes = data;
       this.recipes = this.originalRecipes
       console.log(this.originalRecipes)

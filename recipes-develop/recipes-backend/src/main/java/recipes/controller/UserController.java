@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import recipes.domain.AuthResponse;
+import recipes.domain.Recipe;
 import recipes.domain.User;
+import recipes.repository.RecipeRepository;
 import recipes.repository.UserRepository;
 
 import java.util.List;
@@ -16,6 +18,9 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private RecipeRepository recipeRepository;
+
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public List<User> getUsers() {
@@ -55,6 +60,7 @@ public class UserController {
     	}
     	
     	Optional<User> dbUserOpt = this.repository.findById(user.getId());
+        List<Recipe> recipes = this.recipeRepository.findByAuthor(dbUserOpt.get());
     	
     	if(!dbUserOpt.isPresent()) {
     		return ResponseEntity.notFound().build();
@@ -64,8 +70,15 @@ public class UserController {
     	dbUser.setFirstName(user.getFirstName());
     	dbUser.setLastName(user.getLastName());
     	dbUser.setEmail(user.getEmail());
-    	
+        dbUser.setUsername(user.getUsername());
+        dbUser.setPassword(user.getPassword());
     	this.repository.save(dbUser);
+
+        // update authors of recipes
+        recipes.forEach(recipe -> {
+            recipe.setAuthor(dbUser);
+            this.recipeRepository.save(recipe);
+        });
     	
     	return ResponseEntity.ok(true);
     }

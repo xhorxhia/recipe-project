@@ -47,7 +47,10 @@ import { MyProfileComponent } from './components/profile/myprofile/myprofile.com
 import { UsersService } from './services/users.service';
 import { AddRecipeComponent } from './recipe-item/add-recipe/add-recipe.component';
 import { AddRatingComponent } from './add-rating/add-rating.component';
-import {MatChipsModule} from '@angular/material/chips';
+import { MatChipsModule} from '@angular/material/chips'
+import { StatisticsComponent } from './components/statistics/statistics.component';
+import {MatTableModule} from '@angular/material/table';
+
 
 
 const appRoutes: Routes = [
@@ -79,6 +82,9 @@ const appRoutes: Routes = [
   },
   {
     path: ':id/edit', component: RecipeEditComponent
+  },
+  {
+    path: 'statistics', component: StatisticsComponent
   }
 ];
 
@@ -99,7 +105,9 @@ const appRoutes: Routes = [
     ProfileComponent,
     MyProfileComponent,
     AddRecipeComponent,
-    AddRatingComponent
+    AddRatingComponent,
+    StatisticsComponent,
+
   ],
 
   imports: [
@@ -135,7 +143,8 @@ const appRoutes: Routes = [
     MatTooltipModule,
     MatDialogModule,
     MatTabsModule,
-    MatChipsModule
+    MatChipsModule,
+    MatTableModule
   ],
   exports: [
     RouterModule,

@@ -147,6 +147,7 @@ export class RecipeEditComponent implements OnInit {
 
   toggleAddIngredientForm(show: any) {
     this.show = show;
+    this.showSteps = false;
 }
 
   addNewIngredient(value:any){

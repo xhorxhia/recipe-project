@@ -42,7 +42,7 @@
 <div class="split right">
 
    <mat-label>All recipes</mat-label>
-    <div class="recipes">        
+    <div class="recipes">
         <div *ngFor="let recipe of recipes | searchFilter: query">
             <div (click)="openRecipeDetails(recipe.id)">
                 <mat-card class="recipe-card">
@@ -61,6 +61,9 @@
                             </p>
                             <p style="padding-left: 50px">
                                 Category: {{recipe.category }}
+                            </p>
+                            <p style="padding-left: 50px">
+                                Author: {{recipe.author?.username }}
                             </p>
                         </div>
                     </div>

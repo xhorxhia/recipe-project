@@ -7,14 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.mongodb.DBRef;
 import recipes.domain.Rating;
 import recipes.domain.Recipe;
@@ -25,6 +18,7 @@ import recipes.repository.RecipeRepository;
 import recipes.repository.UserRepository;
 import recipes.services.RecipeService;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/recipes")
 public class RecipeController {
@@ -126,22 +120,22 @@ public class RecipeController {
 	}
 	
 	@GetMapping("filter/author/{authorId}")
-	public ResponseEntity<List<RecipeDTO>> getRecipesByAuthor(@PathVariable String authorId){
+	public ResponseEntity<List<Recipe>> getRecipesByAuthor(@PathVariable String authorId){
 		try {
 		//DBRef authorDBRef = new DBRef("users", authorId);
 		User user  = userRepository.findById(authorId).get();
-		List<RecipeDTO> recipesDTO = new ArrayList<>();
+//		List<RecipeDTO> recipesDTO = new ArrayList<>();
 		List<Recipe> recipes = this.recipeRepository.findByAuthor(user);
-		recipes.forEach(recipe -> {
-			RecipeDTO recipedto = new RecipeDTO(recipe);
-			this.recipeService.getAvgRatings().forEach(avgRating -> {
-				if (avgRating.get_id().equals(String.valueOf(recipe.getId()))) {	
-					recipedto.setStars((long) avgRating.getRating());
-				}
-			});
-			recipesDTO.add(recipedto);
-		});
-		return new ResponseEntity<>(recipesDTO , HttpStatus.OK);
+//		recipes.forEach(recipe -> {
+//			RecipeDTO recipedto = new RecipeDTO(recipe);
+//			this.recipeService.getAvgRatings().forEach(avgRating -> {
+//				if (avgRating.get_id().equals(String.valueOf(recipe.getId()))) {
+//					recipedto.setStars((long) avgRating.getRating());
+//				}
+//			});
+//			recipesDTO.add(recipedto);
+//		});
+		return new ResponseEntity<>(recipes , HttpStatus.OK);
 		} catch(IllegalArgumentException exception) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
