@@ -46,8 +46,6 @@ export class StatisticsComponent implements OnInit {
     if (this.userId !== undefined){
       this.recipeListService.getRecipesList().subscribe(returnRecipes => {
           this.recipes = returnRecipes;
-          console.log(this.recipes);
-          
           this. buildTable(this.recipes);
       });  
     }  
@@ -92,8 +90,6 @@ export class StatisticsComponent implements OnInit {
     const mapEntries = Array.from(this.usersMap.entries());
     mapEntries.sort((a, b) => b[1] - a[1]);
     const top3Values = mapEntries.slice(0, 3);
-
-    console.log(top3Values);
     
     //ingredients
     let tempTable = []

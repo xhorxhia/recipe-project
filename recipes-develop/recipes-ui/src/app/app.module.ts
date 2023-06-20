@@ -49,8 +49,8 @@ import { AddRecipeComponent } from './recipe-item/add-recipe/add-recipe.componen
 import { AddRatingComponent } from './add-rating/add-rating.component';
 import { MatChipsModule} from '@angular/material/chips'
 import { StatisticsComponent } from './components/statistics/statistics.component';
-import {MatTableModule} from '@angular/material/table';
-
+import { MatTableModule} from '@angular/material/table';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 
 const appRoutes: Routes = [
@@ -144,7 +144,8 @@ const appRoutes: Routes = [
     MatDialogModule,
     MatTabsModule,
     MatChipsModule,
-    MatTableModule
+    MatTableModule,
+    ClipboardModule
   ],
   exports: [
     RouterModule,

@@ -67,8 +67,6 @@ export class RecipeEditComponent implements OnInit {
   }
 
   public initForm() {
-    //console.log(this.recipe);
-    
 
     this.recipeForm.patchValue({
       'name': this.recipe.name,
@@ -78,38 +76,11 @@ export class RecipeEditComponent implements OnInit {
       'difficulty': this.recipe.recipeDifficulty,
       'category': this.recipe.category,
       'imagePath': this.recipe?.imagePath
-    })
-
-    
-    // let recipeName = this.recipe.name;
-    // let recipeDescription = this.recipe.description;
-    // let recipeIngredients: any = new FormArray([]);
-    // for (let ingredient of this.recipe.ingredients) {
-    //   recipeIngredients.push(new FormGroup({
-    //     'name': new FormControl(ingredient)
-    //   }));
-    // }
-    // let recipeSteps: any = new FormArray([]);
-    // for (let step of this.recipe.steps) {
-    //   recipeSteps.push(new FormGroup({
-    //     'name': new FormControl(step)
-    //   }));
-    // }
-    // let recipeDifficulty = this.recipe.recipeDifficulty;
-    // let recipeCategory = this.recipe.category;
-    // // Use this when all Recipes have image IDs instead of URLs
-    // this.imageService.getImage(this.recipe.imagePath).subscribe(
-    //   (res) => {
-    //     this.recipeImageSrc = 'data:image/png;base64,' + res.body.content;
-    //   }
-    // )
-
-   
-    
+    });
   }
 
   onSubmit(){
-    console.log(this.recipeForm.value);
+   // console.log(this.recipeForm.value);
     
     const newRecipe = new Recipe();
     newRecipe.id = this.id;
@@ -123,7 +94,7 @@ export class RecipeEditComponent implements OnInit {
     newRecipe.author = this.recipe.author;
     newRecipe.imagePath = this.recipeForm.value['imagePath'];
     newRecipe.rating = this.recipe.rating;
-    console.log(newRecipe);
+    //console.log(newRecipe);
     this.recipeService.updateRecipe(this.id, newRecipe).subscribe();
     this.onCancel();
   }
@@ -193,38 +164,5 @@ export class RecipeEditComponent implements OnInit {
         )
       });
   }
-
-  // onDeleteIngredient(index: number){
-  //   (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
-  // }
-
-  // onAddIngredient(){
-  //   (<FormArray>this.recipeForm.get('ingredients')).push(
-  //     new FormGroup({
-  //       'name': new FormControl(null)
-  //     })
-  //   );
-  // }
-
-  // onDeleteStep(index: number){
-  //   (<FormArray>this.recipeForm.get('steps')).removeAt(index);
-  // }
-
-  // onAddStep(){
-  //   (<FormArray>this.recipeForm.get('steps')).push(
-  //     new FormGroup({
-  //       'name': new FormControl(null)
-  //     })
-  //   );
-  // }
-
-  // getControlsIngredients() {
-  //   return (<FormArray>this.recipeForm.get('ingredients')).controls;
-  // }
-
-  // getControlsSteps() {
-  //   return (<FormArray>this.recipeForm.get('steps')).controls;
-  // }
-
   
 }

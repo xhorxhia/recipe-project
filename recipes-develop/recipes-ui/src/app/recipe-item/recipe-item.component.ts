@@ -21,7 +21,8 @@ export class RecipeItemComponent implements OnInit {
   currentUser = { id: '', username: '' };
   recipeImageSrc!: string;
   ingredientsList = [];
-
+  ingredientNonChecked: string[] = [];
+  ingredientsToCopy : string = '';
 
   constructor(private recipeService: RecipeService, 
               private route: ActivatedRoute,
@@ -32,7 +33,6 @@ export class RecipeItemComponent implements OnInit {
                 this.toolbarService.loggedInUser.subscribe(
                   (state: AuthState) =>
                   {
-                    console.log(state);
                     this.currentUser.id = state.userid;
                     this.currentUser.username = state.username;
                   }
@@ -41,19 +41,22 @@ export class RecipeItemComponent implements OnInit {
   
   ngOnInit(): void {
     this.setId();
+    this.ingredientsToCopy = "";
     this.recipeService.getRecipeById(this.id).subscribe(
       recipe => {
-        this.recipe = recipe;
-        console.log(this.recipe);
-        
-        // console.log(this.currentUser);
-        
+        this.recipe = recipe;  
         this.imageService.getImage(this.recipe.imagePath).subscribe(
           (res) => {
-            console.log(res);
             this.recipeImageSrc = 'data:image/png;base64,' + res.body.content;
           }
         );
+
+        this.recipe?.ingredients.forEach(ing => {
+          this.ingredientNonChecked.push(ing);
+          this.ingredientsToCopy = ""
+         //this.ingredientsToCopy = this.ingredientsToCopy + ',' + ing
+        });
+
       }
     );
   }
@@ -73,4 +76,25 @@ export class RecipeItemComponent implements OnInit {
   onEdit() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
+
+  toggle(event: any, ing: any){
+   this.ingredientsToCopy = "";
+
+    if(event.checked){
+       this.removeItem(ing);     
+    }else{
+      this.ingredientNonChecked.push(ing);
+    }
+   
+    this.ingredientNonChecked.forEach(x=>{
+      this.ingredientsToCopy = this.ingredientsToCopy + ',' + x
+    })
+ 
+  }
+ 
+  removeItem(value:any){
+    const index: number = this.ingredientNonChecked.indexOf(value);
+    this.ingredientNonChecked.splice(index, 1);
+  }
+
 }

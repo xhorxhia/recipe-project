@@ -19,7 +19,7 @@ export class ToolbarComponent{
 
   ngOnInit() {
     this.loggedUser = JSON.parse(localStorage.getItem('recipes.loggedUser') || "{}");
-    console.log(this.loggedUser);
+   // console.log(this.loggedUser);
     
     this._service.loggedInUser.subscribe(
       (state: AuthState) =>

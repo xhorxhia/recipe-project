@@ -34,7 +34,7 @@
             </mat-select>
         </mat-form-field>
     </div>
-    <div class="button">
+    <div class="button" *ngIf="loggedUser.state === true">
         <button mat-flat-button color="primary" (click)="addRecipe()"> Add a recipe </button>
     </div>
 </div>
@@ -49,9 +49,6 @@
                     <div class="details">
                         <mat-card-title class="recipe-name"> {{recipe.name}}
                         </mat-card-title>
-                        <!-- <p class="description">
-                            Description: {{recipe.description}}
-                        </p> -->
                         <div style="display: flex; flex-direction: row;  font-weight: 600; font-size: 16px;">
                             <p>
                                 Stars : {{ recipe.stars }}

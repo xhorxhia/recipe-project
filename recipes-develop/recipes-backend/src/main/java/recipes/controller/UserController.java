@@ -47,7 +47,15 @@ public class UserController {
         if (repository.findByEmail(user.getEmail()).isPresent()) {
           //  return ResponseEntity.ok().body(new AuthResponse<>(user, true, "Account with the given email already exists"));
         }
-        repository.save(user);
+        User dbUser = new User();
+        dbUser.setFirstName(user.getFirstName());
+        dbUser.setLastName(user.getLastName());
+        dbUser.setEmail(user.getEmail());
+        dbUser.setUsername(user.getUsername());
+        dbUser.setPassword(user.getPassword());
+        dbUser.setImagePath(user.getImagePath());
+
+        repository.save(dbUser);
         //return ResponseEntity.ok().body(new AuthResponse<>(user));
 
     }
@@ -72,6 +80,7 @@ public class UserController {
     	dbUser.setEmail(user.getEmail());
         dbUser.setUsername(user.getUsername());
         dbUser.setPassword(user.getPassword());
+        dbUser.setImagePath(user.getImagePath());
     	this.repository.save(dbUser);
 
         // update authors of recipes

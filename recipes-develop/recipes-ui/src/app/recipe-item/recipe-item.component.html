@@ -1,106 +1,158 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-5">
-
-      <h1 class="mat-title text-center">{{ recipe.name }}</h1>
-
-      <dl>
-        <dt style="font-size: large">Description:</dt>
-        <dd class="text-info">{{recipe.description}}</dd>
-      </dl>
-
-      <dl>
-        <dt style="font-size: large">Ingredients:</dt>
-        <dd class="text-info">
-          <mat-select-trigger>
-            <mat-chip-list>
-                <mat-chip
-                      *ngFor="let ing of recipe.ingredients"
-                      [removable]="false" >
-                    {{ ing }}
-                    
-                </mat-chip>
-            </mat-chip-list>
-        </mat-select-trigger>
-          <!-- <mat-selection-list #ingredients>
-            <mat-list-option *ngFor="let ingredient of recipe.ingredients">
-              {{ingredient}}
-            </mat-list-option>
-          </mat-selection-list> -->
-        </dd>
-      </dl>
-
-      <!-- <dl>
-        <dt style="font-size: large">Steps:</dt>
-        <dd>
-          <mat-list role="list">
-            <mat-list-item
-              role="listitem"
-              *ngFor="let step of recipe.steps; let i = index">
-              Step {{i+1}}: {{step}}
-            </mat-list-item>
-          </mat-list>
-        </dd>
-      </dl> -->
-
-      <h3><strong>Difficulty:</strong> {{recipe.recipeDifficulty}}</h3>
-      <h3><strong>Category:</strong> {{recipe.category}}</h3>
-
-    </div>
-
-    <div class="col-md-7 text-end">
-      <p style="font-style: italic">Date: {{ recipe.date }}</p>
-      <p style="font-style: italic">Author: {{ recipe.author?.username }}</p>
-      <img
-        [src]="recipe.imagePath"
-        alt="{{recipe.name}}"
-        class="image-responsive"
-        style="max-height: 300px">
-      <div class="d-flex justify-content-end">
-        <div class="btn-group">
-          <mat-icon *ngIf="recipe.stars == 0" [ngStyle]="{'color':'white'}">star</mat-icon>
-          <mat-icon *ngIf="recipe.stars >= 1" [ngStyle]="{'color':'orange'}">star</mat-icon>
-          <mat-icon *ngIf="recipe.stars >= 2" [ngStyle]="{'color':'orange'}">star</mat-icon>
-          <mat-icon *ngIf="recipe.stars >= 3" [ngStyle]="{'color':'orange'}">star</mat-icon>
-          <mat-icon *ngIf="recipe.stars >= 4" [ngStyle]="{'color':'orange'}">star</mat-icon>
-          <mat-icon *ngIf="recipe.stars >= 5" [ngStyle]="{'color':'orange'}">star</mat-icon>
-        </div>
-        <div class="col-xs-2">
-          <button
-          class="btn btn-default"
-          type="button"
-          (click)="onFavorite()"
-          *ngIf="!favBtnEnabled; else enabled">
-          <mat-icon [ngStyle]="{'color':'grey'}">favorite</mat-icon>
-        </button>
-        <ng-template #enabled>
-          <button
-            class="btn btn-default"
-            (click)="onFavorite()">
-            <mat-icon [ngStyle]="{'color':'red'}">favorite</mat-icon>
-          </button>
-        </ng-template>
-        </div>
-      </div>
-
-      <div *ngIf="recipe.author?.username === currentUser.username">
-        <button
-          class="btn btn-success"
-          (click)="onEdit()">
-        Edit
-      </button>
-      </div>
-
-    </div>
-  </div>
+<mat-tab-group animationDuration="0ms">
   
-  <hr>
-  <div class="row">
-    <app-add-rating [recipe]="recipe"></app-add-rating>
-  </div>
+  <mat-tab label="Recipe">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+    
+          <h1 class="mat-title text-center">{{ recipe.name }}</h1>
+    
+          <dl>
+            <dt style="font-size: large">Description:</dt>
+            <dd class="text-info">{{recipe.description}}</dd>
+          </dl>
+    
+          <dl>
+            <dt style="font-size: large">Ingredients:</dt>
+            <dd class="text-info">
+              <mat-select-trigger>
+                <mat-list role="list">
+                  <mat-list-item  *ngFor="let ing of recipe.ingredients">{{ ing }}</mat-list-item>
+                </mat-list>
+                <!-- <mat-chip-list>
+                    <mat-chip
+                          *ngFor="let ing of recipe.ingredients"
+                          [removable]="false" >
+                        {{ ing }}
+                        
+                    </mat-chip>
+                </mat-chip-list> -->
+            </mat-select-trigger>
+              <!-- <mat-selection-list #ingredients>
+                <mat-list-option *ngFor="let ingredient of recipe.ingredients">
+                  {{ingredient}}
+                </mat-list-option>
+              </mat-selection-list> -->
+            </dd>
+          </dl>
+    
+          <!-- <dl>
+            <dt style="font-size: large">Steps:</dt>
+            <dd>
+              <mat-list role="list">
+                <mat-list-item
+                  role="listitem"
+                  *ngFor="let step of recipe.steps; let i = index">
+                  Step {{i+1}}: {{step}}
+                </mat-list-item>
+              </mat-list>
+            </dd>
+          </dl> -->
+    
+          <h3><strong>Difficulty:</strong> {{recipe.recipeDifficulty}}</h3>
+          <h3><strong>Category:</strong> {{recipe.category}}</h3>
+        
+          <dl>
+            <dt style="font-size: large">Steps:</dt>
+            <dd class="text-info">
+              <mat-select-trigger>
+                <mat-list role="list">
+                  <mat-list-item  *ngFor="let stp of recipe.steps">{{ stp }}</mat-list-item>
+                </mat-list>            
+            </mat-select-trigger>
+            </dd>
+          </dl>
+    
+        </div>
+    
+        <div class="col-md-7 text-end">
+          <p style="font-style: italic">Date: {{ recipe.date }}</p>
+          <p style="font-style: italic">Author: {{ recipe.author?.username }}</p>
+          <img
+            [src]="recipe.imagePath"
+            alt="{{recipe.name}}"
+            class="image-responsive"
+            style="max-height: 300px">
+          <div class="d-flex justify-content-end">
+            <div class="btn-group">
+              <mat-icon *ngIf="recipe.stars == 0" [ngStyle]="{'color':'white'}">star</mat-icon>
+              <mat-icon *ngIf="recipe.stars >= 1" [ngStyle]="{'color':'orange'}">star</mat-icon>
+              <mat-icon *ngIf="recipe.stars >= 2" [ngStyle]="{'color':'orange'}">star</mat-icon>
+              <mat-icon *ngIf="recipe.stars >= 3" [ngStyle]="{'color':'orange'}">star</mat-icon>
+              <mat-icon *ngIf="recipe.stars >= 4" [ngStyle]="{'color':'orange'}">star</mat-icon>
+              <mat-icon *ngIf="recipe.stars >= 5" [ngStyle]="{'color':'orange'}">star</mat-icon>
+            </div>
+            <div class="col-xs-2">
+              <button
+              class="btn btn-default"
+              type="button"
+              (click)="onFavorite()"
+              *ngIf="!favBtnEnabled; else enabled">
+              <mat-icon [ngStyle]="{'color':'grey'}">favorite</mat-icon>
+            </button>
+            <ng-template #enabled>
+              <button
+                class="btn btn-default"
+                (click)="onFavorite()">
+                <mat-icon [ngStyle]="{'color':'red'}">favorite</mat-icon>
+              </button>
+            </ng-template>
+            </div>
+          </div>
+    
+          <div *ngIf="recipe.author?.username === currentUser.username">
+            <button
+              class="btn btn-success"
+              (click)="onEdit()">
+            Edit
+          </button>
+          </div>
+    
+        </div>
+      </div>
+      
+      <hr>
+      <div class="row">
+        <app-add-rating [recipe]="recipe"></app-add-rating>
+      </div>
+    
+      <hr>
+      <div class="row">
+        <app-comment-section></app-comment-section>
+      </div>
+    </div>
+  </mat-tab>
 
-  <hr>
-  <div class="row">
-    <app-comment-section></app-comment-section>
-  </div>
-</div>
+
+  <mat-tab  label="Export ingredients">
+    <div class="row" style="margin: 30px">
+      
+      <div class="col-md-6">        
+        <div style="margin-left:100px; margin-top: 100px; border: 1px solid black; width: 300px;">
+          <h1>Check ingredients</h1>
+          <section *ngFor="let ing of recipe.ingredients">
+          <mat-checkbox [checked]="false" (change)="toggle($event, ing)" >{{ing}}</mat-checkbox>
+        </section>
+        </div>
+      </div>
+
+    <div class="col-md-6">
+      <div style="margin-left:100px; margin-top: 100px; border: 1px solid black; width: 300px;">
+        <h1>Nonchecked ingredients to export</h1>
+        <mat-list>
+          <mat-list-item  *ngFor="let ing of ingredientNonChecked">{{ ing }}</mat-list-item>
+        </mat-list>
+      </div>
+    
+      <button mat-button clor="primary" style="margin-top: 100px; width: 300px; margin-left: 100px;" [cdkCopyToClipboard]="ingredientsToCopy">Copy ingredients</button>
+    </div>
+     
+    </div>
+   
+    
+  </mat-tab>
+  
+</mat-tab-group>
+
+
+

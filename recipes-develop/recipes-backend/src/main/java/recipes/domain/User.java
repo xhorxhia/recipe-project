@@ -16,6 +16,7 @@ public class User {
     private String username;
     private String email;
     private String password;
+	private String imagePath;
     
     
     
@@ -52,7 +53,6 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-    
-	
-    
+	public String getImagePath() { return imagePath; }
+	public void setImagePath(String imagePath) { this.imagePath = imagePath; }
 }

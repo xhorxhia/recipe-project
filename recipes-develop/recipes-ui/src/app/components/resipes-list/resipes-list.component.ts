@@ -3,6 +3,8 @@ import { RecipesListService } from 'src/app/services/recipes-list.service';
 import { Router } from '@angular/router';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Recipe } from 'src/app/recipe-item/recipe.model';
+import { User } from 'src/app/interfaces';
+import { ToolbarService } from 'src/app/toolbar/toolbar.service';
 
 
 @Component({
@@ -26,17 +28,24 @@ export class ResipesListComponent implements OnInit {
 
   enumDifficulties: string[] = ['Easy', 'Medium', 'Advanced', 'Unrated'];
 
+  loggedUser: any ={}
 
 
+  constructor(private recipesListService: RecipesListService, 
+              private router: Router,
+              private toolbarService: ToolbarService) { 
+    this.toolbarService.loggedInUser.subscribe((state) => {
+      this.loggedUser = state
+      //console.log(this.loggedUser);
 
-  constructor(private recipesListService: RecipesListService, private router: Router) { }
+}); }
 
   ngOnInit(): void {
 
     this.recipesListService.getRecipesList().subscribe(data => {
       this.originalRecipes = data;
       this.recipes = this.originalRecipes
-      console.log(this.originalRecipes)
+     // console.log(this.originalRecipes)
     })
 
   }
@@ -105,8 +114,5 @@ export class ResipesListComponent implements OnInit {
     this.router.navigate(['', id]);
   }
 
-  // goToProfile(){
-  //   this.router.navigate(['/myprofile']);
-  // }
 }
 
