@@ -23,6 +23,7 @@ export class RecipeItemComponent implements OnInit {
   ingredientsList = [];
   ingredientNonChecked: string[] = [];
   ingredientsToCopy : string = '';
+  loggedUser: any = {};
 
   constructor(private recipeService: RecipeService, 
               private route: ActivatedRoute,
@@ -33,6 +34,7 @@ export class RecipeItemComponent implements OnInit {
                 this.toolbarService.loggedInUser.subscribe(
                   (state: AuthState) =>
                   {
+                    this.loggedUser = state;
                     this.currentUser.id = state.userid;
                     this.currentUser.username = state.username;
                   }

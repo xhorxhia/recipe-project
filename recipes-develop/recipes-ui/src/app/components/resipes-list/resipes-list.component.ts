@@ -37,8 +37,8 @@ export class ResipesListComponent implements OnInit {
     this.toolbarService.loggedInUser.subscribe((state) => {
       this.loggedUser = state
       //console.log(this.loggedUser);
-
-}); }
+    }); 
+}
 
   ngOnInit(): void {
 

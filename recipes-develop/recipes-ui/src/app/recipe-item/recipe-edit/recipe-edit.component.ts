@@ -6,6 +6,7 @@ import { RecipeService } from '../recipe.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageUploadDialogComponent } from 'src/app/image-upload-dialog/image-upload-dialog.component';
 import { ImageService } from 'src/app/image-upload-dialog/image.service';
+import { ToolbarService } from 'src/app/toolbar/toolbar.service';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -29,7 +30,8 @@ export class RecipeEditComponent implements OnInit {
               private router: Router,
               private dialog: MatDialog,
               private imageService: ImageService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder){
+
                 this.recipe = new Recipe();
 
                 this.recipeForm = new FormGroup({

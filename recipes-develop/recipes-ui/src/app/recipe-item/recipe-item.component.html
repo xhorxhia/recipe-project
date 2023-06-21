@@ -113,7 +113,7 @@
       
       <hr>
       <div class="row">
-        <app-add-rating [recipe]="recipe"></app-add-rating>
+        <app-add-rating [recipe]="recipe"  *ngIf="loggedUser.state === true"></app-add-rating>
       </div>
     
       <hr>

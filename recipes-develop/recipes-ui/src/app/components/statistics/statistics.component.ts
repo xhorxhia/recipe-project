@@ -72,28 +72,20 @@ export class StatisticsComponent implements OnInit {
       this.users.push(recipe.author.username)
     });
 
+    //ingredients
     this.ingredients.forEach((ing: any) => {
       if(ing != null && ing !=""){
         this.ingMap.set(ing, this.getOccurrence(this.ingredients, ing.trim()));
       }
     });
 
-    this.difficulties.forEach((dif: any) => {
-      this.difficultyMap.set(dif, this.getOccurrence(this.difficulties, dif));
-    });
+    // sort in descending order
+    let sortedMapValues = new Map(
+      [...this.ingMap.entries()].sort((a, b) => String(b[1]).localeCompare(a[1]))
+    );
 
-    this.users.forEach((usr: any) => {
-      this.usersMap.set(usr, this.getOccurrence(this.users, usr));
-    });
-
-    //find top 3 users
-    const mapEntries = Array.from(this.usersMap.entries());
-    mapEntries.sort((a, b) => b[1] - a[1]);
-    const top3Values = mapEntries.slice(0, 3);
-    
-    //ingredients
     let tempTable = []
-    for (let entry of this.ingMap.entries()) {
+    for (let entry of sortedMapValues.entries()) {
       let tableObj = {}
       let mapKey = entry[0];
       let mapValue = entry[1];
@@ -108,6 +100,10 @@ export class StatisticsComponent implements OnInit {
 
      
     // difficulty
+    this.difficulties.forEach((dif: any) => {
+      this.difficultyMap.set(dif, this.getOccurrence(this.difficulties, dif));
+    });
+
     let tempTable2 = []
     for (let entry of this.difficultyMap.entries()) {
       let tableObj = {}
@@ -123,6 +119,15 @@ export class StatisticsComponent implements OnInit {
     }
 
     // users
+    this.users.forEach((usr: any) => {
+      this.usersMap.set(usr, this.getOccurrence(this.users, usr));
+    });
+
+    //find top 3 users
+    const mapEntries = Array.from(this.usersMap.entries());
+    mapEntries.sort((a, b) => b[1] - a[1]);
+    const top3Values = mapEntries.slice(0, 3);
+
     let tempTable3 = []
     for (let v of top3Values) {
       let tableObj = {}
