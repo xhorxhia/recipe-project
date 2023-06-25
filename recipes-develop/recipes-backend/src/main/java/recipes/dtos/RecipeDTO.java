@@ -1,6 +1,7 @@
 package recipes.dtos;
 
 import lombok.*;
+import recipes.domain.Ingredients;
 import recipes.domain.Recipe;
 import recipes.domain.User;
 
@@ -14,7 +15,7 @@ public class RecipeDTO {
     private String id;
     private String name;
     private String description;
-    private List<String> ingredients;
+    private List<Ingredients> ingredients;
 	private List<String> steps;
 	private String category;
     private User author;
@@ -22,7 +23,24 @@ public class RecipeDTO {
     private String imagePath;
     private float stars;
 	private String recipeDifficulty;
-
+//	private String fileName;
+//	private String contentType;
+//
+//	public String getFileName() {
+//		return fileName;
+//	}
+//
+//	public void setFileName(String fileName) {
+//		this.fileName = fileName;
+//	}
+//
+//	public String getContentType() {
+//		return contentType;
+//	}
+//
+//	public void setContentType(String contentType) {
+//		this.contentType = contentType;
+//	}
 
 	private enum difficulty{
     	Easy,
@@ -76,6 +94,8 @@ public class RecipeDTO {
 				res.getImagePath(),
 				0,
 				res.getDifficulty() == null || res.getDifficulty() == "" ? "Unrated" : res.getDifficulty()
+//				 res.getFileName(),
+//				 res.getContentType()
 			);
 	 }
 
@@ -110,12 +130,12 @@ public class RecipeDTO {
 	}
 
 
-	public List<String> getIngredients() {
+	public List<Ingredients> getIngredients() {
 		return ingredients;
 	}
 
 
-	public void setIngredients(List<String> ingredients) {
+	public void setIngredients(List<Ingredients> ingredients) {
 		this.ingredients = ingredients;
 	}
 

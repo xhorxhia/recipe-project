@@ -1,14 +1,27 @@
 package recipes.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.*;
+
+import com.mongodb.client.gridfs.model.GridFSFile;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Example;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import com.mongodb.DBRef;
+import org.springframework.web.multipart.MultipartFile;
+import recipes.config.ApiException;
 import recipes.domain.Rating;
 import recipes.domain.Recipe;
 import recipes.domain.User;
@@ -16,7 +29,12 @@ import recipes.dtos.RecipeDTO;
 import recipes.repository.RatingsRepository;
 import recipes.repository.RecipeRepository;
 import recipes.repository.UserRepository;
+import recipes.services.FileServiceImplementation;
 import recipes.services.RecipeService;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.Utilities;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -35,10 +53,37 @@ public class RecipeController {
 	@Autowired
 	private RatingsRepository ratingsRepository;
 
+	@Autowired
+	private FileServiceImplementation fileServiceImplementation;
+
+	@Autowired
+	private GridFsTemplate gridFsTemplate;
+
 	@GetMapping
 	public ResponseEntity<List<Recipe>> findAll(){
 //		return new ResponseEntity<>(this.recipeService.getAllRecipes(), HttpStatus.OK);
 		List<Recipe> recipes = recipeRepository.findAll();
+//		List<Recipe> recipes =new ArrayList<>();
+//		recipeRepository.findAll()
+//		.forEach(recipe -> {
+//			GridFSFile imageFile = gridFsTemplate.findOne(new Query(Criteria.where("_id").is(recipe.getFileName())));
+//			InputStream inputStream = null;
+//			try {
+//				inputStream = gridFsTemplate.getResource(imageFile).getInputStream();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			byte[] imageBytes = new byte[0];
+//			try {
+//				imageBytes = StreamUtils.copyToByteArray(inputStream);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+//
+//			recipe.setImagePath(base64Image);
+//			recipes.add(recipe);
+//		});
 		return new ResponseEntity<>(recipes, HttpStatus.OK);
 	}
 
@@ -64,7 +109,7 @@ public class RecipeController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<RecipeDTO> addRecipe(@RequestBody RecipeDTO recipeDto) {
+	public ResponseEntity<RecipeDTO> addRecipe(@RequestBody RecipeDTO recipeDto) {  //@RequestPart(value = "file") MultipartFile file,
 		//Optional<User> authOpt = this.userRepository.findById(recipeDto.getAuthor().getId());
 		
 //		if(!authOpt.isPresent()){
@@ -83,7 +128,28 @@ public class RecipeController {
 		recipe.setImagePath(recipeDto.getImagePath());
 //		recipe.setAuthor(authOpt.get());
 
-		
+//		if(file != null){
+//			recipe.setImagePath(recipeDto.getImagePath());
+//			recipe.setFileName(fileServiceImplementation.save(file.getInputStream(), file.getOriginalFilename(), file.getContentType()));
+//		}
+
+
+//		GridFSFile imageFile = gridFsTemplate.findOne(new Query(Criteria.where("_id").is(recipe.getFileName())));
+//		InputStream inputStream = null;
+//		try {
+//			inputStream = gridFsTemplate.getResource(imageFile).getInputStream();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		byte[] imageBytes = new byte[0];
+//		try {
+//			imageBytes = StreamUtils.copyToByteArray(inputStream);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+//
+//		recipe.setImagePath(base64Image);
 		
 		Recipe savedRecipe = this.recipeRepository.save(recipe);
 		
@@ -93,7 +159,7 @@ public class RecipeController {
 		
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 
 
 	//Userul poate sa fie pus de oricine oricum, apare aceeasi problema ca la metoda de mai sus

@@ -19,6 +19,7 @@ public class RecipeService {
 	
 	@Autowired
 	private RecipeRepository recipeRepository;
+
 		
 	public List<RecipeDTO> getAllRecipes(){
 		List<RecipeDTO> recipes =  this.recipeRepository

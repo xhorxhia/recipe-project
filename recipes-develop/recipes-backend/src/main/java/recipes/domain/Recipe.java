@@ -19,7 +19,7 @@ public class Recipe {
 	private String id;
 	private String name;
 	private String description;
-	private List<String> ingredients;
+	private List<Ingredients> ingredients;
 	private List<String> steps;
 	private String difficulty;
 	private String category;
@@ -27,6 +27,8 @@ public class Recipe {
 	private User author;
 	private String date;
 	private String imagePath;
+	private String fileName;
+	private String contentType;
 	private float stars;
 	private Long count = 0L;
 	
@@ -49,10 +51,10 @@ public class Recipe {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public List<String> getIngredients() {
+	public List<Ingredients> getIngredients() {
 		return ingredients;
 	}
-	public void setIngredients(List<String> ingredients) {
+	public void setIngredients(List<Ingredients> ingredients) {
 		this.ingredients = ingredients;
 	}
 	public List<String> getSteps() {
@@ -106,5 +108,21 @@ public class Recipe {
 
 	public void setCount(Long count) {
 		this.count = count;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 }
