@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ImageUploadDialogComponent } from 'src/app/image-upload-dialog/image-upload-dialog.component';
 import { ImageService } from 'src/app/image-upload-dialog/image.service';
 import { ToolbarService } from 'src/app/toolbar/toolbar.service';
+import { FocusMonitor } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -23,6 +24,7 @@ export class RecipeEditComponent implements OnInit {
   recipeImagePath!: string;
   show = false;
   showSteps = false;
+  ingredientsToshow: any = [];
 
 
   constructor(private recipeService: RecipeService,
@@ -41,7 +43,7 @@ export class RecipeEditComponent implements OnInit {
                   'steps':new FormControl,
                   'difficulty': new FormControl(null),
                   'category': new FormControl(null),
-                  'newIngredient': new FormControl(null),
+                  'newIngredient':  this.fb.array([this.addKeyValue()]),
                   'newStep': new FormControl(null),
                   'imagePath':new FormControl(null),
                 });
@@ -50,14 +52,25 @@ export class RecipeEditComponent implements OnInit {
   ngOnInit(): void {
     let today = new Date();
     this.recipeDate = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
-    console.log(this.recipeDate);
     this.setId();
     this.recipeService.getRecipeById(this.id).subscribe(
       recipe => {
         this.recipe = recipe;
         this.initForm();
+        this.getIngredientsToshow(this.recipe.ingredients);
       }
     );
+  }
+
+  getIngredientsToshow(ingredients: any){
+    this.ingredientsToshow = []
+
+    for (const k of  ingredients) { 
+      if(k.key != null && k.value != null) {
+        let ing = k.key + " " + k.value
+        this.ingredientsToshow.push(ing); 
+      }        
+    }
   }
 
   setId() {
@@ -81,9 +94,9 @@ export class RecipeEditComponent implements OnInit {
     });
   }
 
-  onSubmit(){
-   // console.log(this.recipeForm.value);
-    
+  onSubmit(event: Event){
+    event.preventDefault();
+
     const newRecipe = new Recipe();
     newRecipe.id = this.id;
     newRecipe.name = this.recipeForm.value['name'];
@@ -96,40 +109,74 @@ export class RecipeEditComponent implements OnInit {
     newRecipe.author = this.recipe.author;
     newRecipe.imagePath = this.recipeForm.value['imagePath'];
     newRecipe.rating = this.recipe.rating;
-    //console.log(newRecipe);
+   
     this.recipeService.updateRecipe(this.id, newRecipe).subscribe();
-    this.onCancel();
+   this.onCancel();
   }
 
   onCancel(){
     this.router.navigate(['../'], {relativeTo: this.route})
   }
 
-  onIngredientRemoved(ing:any){
-    const ingredients = this.recipeForm.get('ingredients')?.value;
-    this.removeFirst(ingredients, ing);
-    this.recipeForm.get('ingredients')?.setValue(ingredients); // To trigger change detection
+
+  /////////////////////////////// Ingredients
+  get newIngredient(){
+    return this.recipeForm.get('newIngredient') as FormArray
   }
+  
+  
+  addKeyValue() {
+    return this.fb.group({
+      key: new FormControl,
+      value: new FormControl
+    });
+  }
+
+  addIng(): void { 
+    this.newIngredient.push(this.addKeyValue());   
+
+    this.addNewIngredient(this.newIngredient.value);
+  }
+
+  removeIng(index: any){
+    this.newIngredient.removeAt(index);
+  }
+  
+  onIngredientRemoved(i:any){  
+    const ingredients = this.recipeForm.get('ingredients')?.value;   
+    ingredients.splice(i, 1);
+    this.ingredientsToshow.splice(i, 1); // To trigger change detection
+    this.recipeForm.get('ingredients')?.setValue(ingredients);
+  }
+
+  
+  addNewIngredient(value:any){
+      const ingredients = this.recipeForm.get('ingredients')?.value; 
+  
+      // do not allow null values
+      for(const k of value){
+        if(k.key != null && k.value != null) {
+          ingredients.push(k);
+        }
+      }   
+   
+      // remove duplicates
+      const uniqueArray = ingredients.filter((obj:any, index:any, self:any) => {
+        return index === self.findIndex((o:any) => o.key === obj.key && o.value === obj.value);
+      });
+        
+      this.recipeForm.get('ingredients')?.setValue(uniqueArray);
+      this.getIngredientsToshow(uniqueArray); // To trigger change detection
+  
+    }
+
+//////////////////////////////// Steps
 
   private removeFirst<T>(array: T[], toRemove: T): void {
     const index = array.indexOf(toRemove);
     if (index !== -1) {
         array.splice(index, 1);
     }
-  }
-
-  toggleAddIngredientForm(show: any) {
-    this.show = show;
-    this.showSteps = false;
-}
-
-  addNewIngredient(value:any){
-
-    const ingredients = this.recipeForm.get('ingredients')?.value;
-    ingredients.push(value);
-    this.recipeForm.get('ingredients')?.setValue(ingredients);
-    this.show = false;
-    
   }
 
   onStepsRemoved(st:any){
@@ -139,7 +186,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   toggleAddStepsForm(show: any) {
-    this.showSteps = show;
+    show ? this.showSteps = true: this.showSteps = false;
 }
 
   addNewStep(value:any){
@@ -156,8 +203,7 @@ export class RecipeEditComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(result => {
         this.recipeImagePath = result;
-        console.log(result);
-        
+     
         this.imageService.getImage(this.recipeImagePath).subscribe(
           (res) => {
             this.recipeImageSrc = 'data:image/png;base64,' + res.body.content;

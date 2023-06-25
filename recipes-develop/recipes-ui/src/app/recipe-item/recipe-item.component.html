@@ -17,38 +17,18 @@
             <dd class="text-info">
               <mat-select-trigger>
                 <mat-list role="list">
-                  <mat-list-item  *ngFor="let ing of recipe.ingredients">{{ ing }}</mat-list-item>
+                   <mat-list-item  *ngFor="let ing of ingredientsToshow">
+                    
+                      &nbsp;{{ ing }}
+
+                  </mat-list-item>
                 </mat-list>
-                <!-- <mat-chip-list>
-                    <mat-chip
-                          *ngFor="let ing of recipe.ingredients"
-                          [removable]="false" >
-                        {{ ing }}
-                        
-                    </mat-chip>
-                </mat-chip-list> -->
+              
             </mat-select-trigger>
-              <!-- <mat-selection-list #ingredients>
-                <mat-list-option *ngFor="let ingredient of recipe.ingredients">
-                  {{ingredient}}
-                </mat-list-option>
-              </mat-selection-list> -->
+              
             </dd>
           </dl>
-    
-          <!-- <dl>
-            <dt style="font-size: large">Steps:</dt>
-            <dd>
-              <mat-list role="list">
-                <mat-list-item
-                  role="listitem"
-                  *ngFor="let step of recipe.steps; let i = index">
-                  Step {{i+1}}: {{step}}
-                </mat-list-item>
-              </mat-list>
-            </dd>
-          </dl> -->
-    
+
           <h3><strong>Difficulty:</strong> {{recipe.recipeDifficulty}}</h3>
           <h3><strong>Category:</strong> {{recipe.category}}</h3>
         
@@ -130,9 +110,10 @@
       <div class="col-md-6">        
         <div style="margin-left:100px; margin-top: 100px; border: 1px solid black; width: 300px;">
           <h1>Check ingredients</h1>
-          <section *ngFor="let ing of recipe.ingredients">
-          <mat-checkbox [checked]="false" (change)="toggle($event, ing)" >{{ing}}</mat-checkbox>
-        </section>
+              <section  *ngFor="let ing of ingredientsToshow">
+                <mat-checkbox [checked]="false" (change)="toggle($event, ing)" > &nbsp;{{ ing}}</mat-checkbox>
+                </section>
+
         </div>
       </div>
 

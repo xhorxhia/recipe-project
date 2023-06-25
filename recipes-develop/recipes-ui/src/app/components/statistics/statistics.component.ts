@@ -43,10 +43,14 @@ export class StatisticsComponent implements OnInit {
 }
 
   ngOnInit(): void {
+    console.log(this.userId);
+    
     if (this.userId !== undefined){
       this.recipeListService.getRecipesList().subscribe(returnRecipes => {
+        console.log(returnRecipes);
+        
           this.recipes = returnRecipes;
-          this. buildTable(this.recipes);
+          this.buildTable(this.recipes);
       });  
     }  
     
@@ -61,15 +65,21 @@ export class StatisticsComponent implements OnInit {
   buildTable(recipes: any) {
     this.ingredients = []
     recipes.forEach((recipe: any) => {
-      recipe.ingredients.forEach((ing: any) => {
-        if(ing != null && ing !=""){
-         this.ingredients.push(ing.trim()) 
-        }
-        
-      });
+      // recipe.ingredients?.forEach((ing: any) => {
+      //   if(ing != null && ing !=""){
+      //    this.ingredients.push(ing.trim()) 
+      //   }        
+      // });
+
+
+      for (const k of  recipe.ingredients) { 
+        if(k.key != null && k.key !=""){ 
+          this.ingredients.push(k.key)   
+        }            
+      }
       this.difficulties.push(recipe.difficulty);
 
-      this.users.push(recipe.author.username)
+      this.users.push(recipe.author?.username)
     });
 
     //ingredients

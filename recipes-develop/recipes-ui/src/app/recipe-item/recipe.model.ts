@@ -4,7 +4,7 @@ export class Recipe {
     id!: string;
     name!: string;
     description!: string;
-    ingredients!: string[];
+    ingredients!: any[];
     steps!: string[];
     difficulty!: string;
     category!: string;

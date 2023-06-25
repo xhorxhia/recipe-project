@@ -43,7 +43,6 @@ export class MyProfileComponent implements OnInit {
 
     ngOnInit(): void {
       this.loggedUser = JSON.parse(localStorage.getItem('recipes.loggedUser') || "{}");
-     console.log(this.loggedUser);
 
      if(!this.currentUser.state){
        this.router.navigate(['/']);
@@ -81,7 +80,6 @@ export class MyProfileComponent implements OnInit {
 
     onSave():void {
       this.editMode = !this.editMode;
-      console.log(this.loggedUser);
       
       this.usersService.updateUser(this.loggedUser).subscribe(response => {
         if(response) {

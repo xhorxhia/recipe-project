@@ -14,6 +14,8 @@ import { RecipeService } from './recipe.service';
   templateUrl: './recipe-item.component.html',
   styleUrls: ['./recipe-item.component.css']
 })
+
+
 export class RecipeItemComponent implements OnInit {
   favBtnEnabled = false;
   recipe!: Recipe;
@@ -24,6 +26,7 @@ export class RecipeItemComponent implements OnInit {
   ingredientNonChecked: string[] = [];
   ingredientsToCopy : string = '';
   loggedUser: any = {};
+  ingredientsToshow:any = [];
 
   constructor(private recipeService: RecipeService, 
               private route: ActivatedRoute,
@@ -53,11 +56,22 @@ export class RecipeItemComponent implements OnInit {
           }
         );
 
-        this.recipe?.ingredients.forEach(ing => {
-          this.ingredientNonChecked.push(ing);
-          this.ingredientsToCopy = ""
-         //this.ingredientsToCopy = this.ingredientsToCopy + ',' + ing
-        });
+        for (const k of  this.recipe.ingredients) {
+        
+          let ing = k.key + " " + k.value
+            this.ingredientsToshow.push(ing);  
+            this.ingredientNonChecked.push(ing);         
+            this.ingredientsToCopy = ""
+                 
+        }
+
+        
+
+        // this.recipe?.ingredients.forEach(ing => {
+        //   this.ingredientNonChecked.push(ing);
+        //   this.ingredientsToCopy = ""
+        //  //this.ingredientsToCopy = this.ingredientsToCopy + ',' + ing
+        // });
 
       }
     );
@@ -67,6 +81,8 @@ export class RecipeItemComponent implements OnInit {
     this.route.params.subscribe(
       (params: Params) => {
         this.id = params['id'];
+        //console.log(params['id']);
+        
       }
     );
   }
@@ -75,7 +91,7 @@ export class RecipeItemComponent implements OnInit {
     this.favBtnEnabled = !this.favBtnEnabled;
   }
 
-  onEdit() {
+  onEdit() { 
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 

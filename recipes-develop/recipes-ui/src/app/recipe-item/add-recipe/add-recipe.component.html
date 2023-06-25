@@ -1,7 +1,7 @@
 <div style="width: 50%; margin-left: 20%;">
     <h1>Add a new Recipe</h1>
     <br><br><br>
-    <form [formGroup]="addRecipeForm" (ngSubmit)="addRecipe(addRecipeForm.value)">
+    <form [formGroup]="addRecipeForm" (ngSubmit)="addRecipe(addRecipeForm.value)" enctype="multipart/form-data" >
 
         <div fxLayout="row" fxLayoutGap="10px">
             <div fxFlexFill>
@@ -48,11 +48,27 @@
             </div>
             <br>
             <div fxFlexFill>
-                <mat-form-field style="width: 100%">
-                    <mat-label>Ingredients (Put ingredients separated with comma) </mat-label>
-                    <input matInput required formControlName="ingredients" type="text">
-                </mat-form-field>
+                    <div formArrayName="ingredients"
+                                  *ngFor="let attr of ingredients.controls; let k = index;">
+                      <div [formGroupName]="k">
+                        <div fxLayout="row" fxLayoutGap="5px"><br>  
+                            <input formControlName="key" placeholder="Name">
+                            <input formControlName="value" placeholder="Measure">
+                            
+                          
+                          <button
+                                  mat-icon-button color="primary"
+                                  style="min-width: 40px;"
+                                  type="button"
+                                  (click)="removeIng(k)">
+                            <mat-icon>close</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <button mat-button type="button" color="primary" style="float: left" (click)="addIng()">Add</button> 
             </div>
+            
             <br>
             <div fxFlexFill>
                 <mat-form-field style="width: 100%">
@@ -66,13 +82,15 @@
                     <img [src]="recipeImageSrc" class="image-responsive" style="max-height: 300px">
                 </div>
                 <div class="d-flex align-items-left">
+                      <!-- <input type="file" id="customFile" (change)="selectFile($event)">
+                    <button class="btn btn-primary" [disabled]="!selectedFiles" (click)="upload()">Save File</button> -->
                     <button class="btn btn-light" type="button" (click)="onUploadRecipeImage()">
                         Upload image
                     </button>
                 </div>
             </div>
 
-        </div>
+        </div><br>
         <button mat-button color="primary">Save</button>
        
 

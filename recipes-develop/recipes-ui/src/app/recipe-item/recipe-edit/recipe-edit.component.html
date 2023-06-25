@@ -1,4 +1,4 @@
-<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="recipeForm" (ngSubmit)="onSubmit($event)">
     <div class="row" style="margin: 30px">
         <div class="col-md-6">
             <div class="row">
@@ -22,12 +22,12 @@
             </div>
             <br>
             <div class="row">
-                <label style="font-weight: bold;">Ingredients</label>{{recipe.ingredients}}
+                <label style="font-weight: bold;">Ingredients</label>
                 <mat-select-trigger >
                     <mat-chip-list formControlName="ingredients">
                         <mat-chip
-                              *ngFor="let ing of recipe.ingredients; let i = index"
-                              [removable]="true" (removed)="onIngredientRemoved(ing)">
+                              *ngFor="let ing of ingredientsToshow; let i = index"
+                              [removable]="true" (removed)="onIngredientRemoved(i)">
                             {{ ing }}
                         <mat-icon matChipRemove>cancel</mat-icon>   
                         </mat-chip>
@@ -37,29 +37,32 @@
                 <div fxFlex="10" fxLayoutAlign="center center">
                     <label>Add ingredient</label>
                     <button mat-icon-button type="button" color="primary">
-                        <mat-icon *ngIf="!show"
+                        <!-- <mat-icon *ngIf="!show"
                                   (click)="toggleAddIngredientForm(true)">add_circle
                         </mat-icon>
                         <mat-icon *ngIf="show" (click)="toggleAddIngredientForm(false)">
                             remove_circle
-                        </mat-icon>
+                        </mat-icon> -->
                     </button>
                 </div>
-                <div *ngIf="show===true" style="width: 50%">
-                    <div fxLayout="row" fxLayoutGap="10px" style="width: 100%">
-                        <div fxFlexFill fxFlex='50'>
-                            <mat-form-field style="width: 100%">
-                                <mat-label>New ingredient
-                                </mat-label>
-                                <input matInput formControlName="newIngredient" type="text" >
-                            </mat-form-field>
-                        </div>
-                        <div fxFlexFill fxFlex='50'>
-                            <button type="submit" mat-raised-button color="primary" (click)="addNewIngredient(recipeForm.get('newIngredient')?.value)">
-                                Add
-                            </button>
-                        </div>
+                <div style="width: 70%">
+                    <div formArrayName="newIngredient" *ngFor="let attr of newIngredient.controls; let k = index;">
+                        <div [formGroupName]="k">
+                            <div fxLayout="row" fxLayoutGap="2px"><br>                                          
+                                <input  formControlName="key" placeholder="Name">                            
+                                <input  formControlName="value" placeholder="Measure">  
+                                <button
+                                    mat-icon-button color="primary"
+                                    style="min-width: 40px;"
+                                    type="button"
+                                    (click)="removeIng(k)">
+                                <mat-icon>close</mat-icon>
+                                </button>  
+                            </div>
+                        </div>                       
                     </div>
+                    <button mat-button type="button" color="primary" style="float: left" (click)="addIng()">Add</button> 
+   
                 </div>  
 
                 <!-- <div class="col-xs-12" formArrayName="ingredients">
@@ -109,12 +112,9 @@
                         <mat-icon *ngIf="!show"
                                   (click)="toggleAddStepsForm(true)">add_circle
                         </mat-icon>
-                        <mat-icon *ngIf="show" (click)="toggleAddStepsForm(false)">
-                            remove_circle
-                        </mat-icon>
                     </button>
                 </div>
-                <div *ngIf="showSteps===true" style="width: 50%">
+                <div *ngIf="showSteps==true" style="width: 50%">
                     <div fxLayout="row" fxLayoutGap="10px" style="width: 100%">
                         <div fxFlexFill fxFlex='70'>
                             <mat-form-field style="width: 100%">

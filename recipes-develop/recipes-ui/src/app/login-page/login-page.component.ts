@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {FormControl, Validators} from '@angular/forms';
 import { EncryptionPipe } from "../encryption.pipe";
 import { LoginPageService } from "./login-page.service";
@@ -14,7 +14,7 @@ import { EventService } from "../services/event.servise";
     templateUrl: './login-page.component.html',
     styleUrls: ['./login-page.component.css']
 })
-export class LoginPageComponent{
+export class LoginPageComponent {
     hidePassword: boolean = true;
     password = new FormControl('', [Validators.required]);
     username = new FormControl('', [Validators.required]);
@@ -30,6 +30,7 @@ export class LoginPageComponent{
                 private _snackBar: MatSnackBar, 
                 private _encryption: EncryptionPipe, 
                 private _router: Router){}
+ 
 
     onClick(){
       if(this.username.touched == false || this.password.touched == false){

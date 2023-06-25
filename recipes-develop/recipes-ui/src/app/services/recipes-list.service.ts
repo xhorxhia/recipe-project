@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Recipe } from '../recipe-item/recipe.model';
 
@@ -24,8 +24,11 @@ export class RecipesListService {
         return this.http.get<Recipe>(`${this.recipesListUrl}/${id}`)
     }
 
-    public addRecipe(recipe: any) {
-        return this.http.post<any>(`${this.recipesListUrl}/add`, recipe)
+    public addRecipe(file:any) {
+        //var headers = new HttpHeaders({'Content-Type': 'multipart/form-data; boundary=5000'}); //multipart/form-data
+
+        return this.http.post<any>(`${this.recipesListUrl}/add`,file ) 
+        
     }
 
     public addRating(rate: any) {

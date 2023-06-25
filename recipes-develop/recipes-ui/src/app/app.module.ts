@@ -51,7 +51,7 @@ import { MatChipsModule} from '@angular/material/chips'
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { MatTableModule} from '@angular/material/table';
 import { ClipboardModule } from '@angular/cdk/clipboard';
-
+import { ConfirmationDialog } from './confirm-dialog/confirm-dialog.component';
 
 const appRoutes: Routes = [
   {
@@ -107,6 +107,7 @@ const appRoutes: Routes = [
     AddRecipeComponent,
     AddRatingComponent,
     StatisticsComponent,
+    ConfirmationDialog
 
   ],
 
@@ -145,7 +146,8 @@ const appRoutes: Routes = [
     MatTabsModule,
     MatChipsModule,
     MatTableModule,
-    ClipboardModule
+    ClipboardModule,
+    MatDialogModule,
   ],
   exports: [
     RouterModule,

@@ -5,6 +5,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Recipe } from 'src/app/recipe-item/recipe.model';
 import { User } from 'src/app/interfaces';
 import { ToolbarService } from 'src/app/toolbar/toolbar.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -29,11 +30,12 @@ export class ResipesListComponent implements OnInit {
   enumDifficulties: string[] = ['Easy', 'Medium', 'Advanced', 'Unrated'];
 
   loggedUser: any ={}
-
+test:any
 
   constructor(private recipesListService: RecipesListService, 
               private router: Router,
-              private toolbarService: ToolbarService) { 
+              private toolbarService: ToolbarService,
+              private _sanitizer: DomSanitizer) { 
     this.toolbarService.loggedInUser.subscribe((state) => {
       this.loggedUser = state
       //console.log(this.loggedUser);
@@ -45,10 +47,13 @@ export class ResipesListComponent implements OnInit {
     this.recipesListService.getRecipesList().subscribe(data => {
       this.originalRecipes = data;
       this.recipes = this.originalRecipes
-     // console.log(this.originalRecipes)
+      
     })
 
+
   }
+
+
 
   onChangeDemo(ob: MatCheckboxChange) {
     console.log("checked: " + ob.checked);
